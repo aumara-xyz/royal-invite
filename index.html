@@ -6,40 +6,39 @@
 <title>The Golden Boundary — An Invitation</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="A boundary, a tesseract, and an invitation — for the Royal University of Bhutan.">
-<meta name="theme-color" content="#eef1f8">
+<meta name="theme-color" content="#11141d">
 <!--
   aukora.xyz/royal-invite — self-contained: no frameworks, no trackers, no external requests.
-  A click-through fly-through: harp strings resolve to a boundary; the boundary reveals the
-  twenty-seven; two cells meet and neither merges; the cost of the meeting is stated; then the
-  invitation. Built to match the lander's own hue family (hue-l/hue-c/hue-r), lightened.
+  A long click-through: a Riemann-zeta-inspired opening (image only, not the mathematics, and
+  said so on-screen) resolves into a boundary; the boundary reveals the twenty-seven; two cells
+  meet and neither merges; then the engineering story — Merkle consistency, receipts, propose vs
+  accept, peer witnesses, signatures, Aura as instrument panel, KIRA — then the cost theorem and
+  the invitation. Dark blue-grey (not black), light text, minimal, click/tap/keys to advance, a
+  subtle back control, no controllable Zeta Harp embedded — original non-interactive animation
+  only, citing github.com/aumara-xyz/zeta-harp as further reading, not as a source of claims.
 -->
 <style>
   :root{
-    /* the lander's own hue family, kept, lightened for a light ground */
-    --hue-l: 24,140,108;      /* was 129,212,180 */
-    --hue-c: 60,92,196;       /* was 150,180,255 */
-    --hue-r: 122,88,178;      /* was 196,170,255 */
-    --gold:  168,124,42;
+    --hue-l: 129,212,180;
+    --hue-c: 150,180,255;
+    --hue-r: 196,170,255;
+    --gold:  224,181,102;
+    --warn:  224,130,108;
 
-    --bg0:   #eef1f7;
-    --bg1:   #e4e9f3;
-    --panel: rgba(35,42,58,.05);
-    --panel-br: rgba(35,42,58,.08);
-    --border:rgba(35,42,58,.12);
-    --ink:   #232a3a;
-    --dim:   #5b6478;
-    --faint: #8890a0;
+    --bg0:   #11141d;
+    --bg1:   #171c28;
+    --panel: rgba(255,255,255,.045);
+    --panel-br: rgba(255,255,255,.06);
+    --border:rgba(255,255,255,.10);
+    --ink:   rgba(244,246,255,.94);
+    --dim:   rgba(228,232,248,.72);
+    --faint: rgba(220,226,245,.56);
     --ease: cubic-bezier(.22,1,.36,1);
   }
   *{box-sizing:border-box; margin:0; padding:0}
   html,body{height:100%; overflow:hidden; background:var(--bg0); color:var(--ink);
     font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; -webkit-font-smoothing:antialiased}
-  body{
-    background:
-      radial-gradient(1100px 700px at 18% -6%, rgba(var(--hue-c),.10), transparent 60%),
-      radial-gradient(900px 620px at 100% 110%, rgba(var(--hue-r),.08), transparent 55%),
-      linear-gradient(180deg, var(--bg0), var(--bg1));
-  }
+  body{ background:linear-gradient(180deg, var(--bg0), var(--bg1)); }
   canvas{position:fixed; inset:0; display:block; touch-action:none}
   #stage{position:fixed; inset:0; cursor:pointer}
 
@@ -47,17 +46,16 @@
   .veil{position:fixed; inset:0; z-index:20; display:grid; place-items:center;
     background:linear-gradient(180deg, var(--bg0), var(--bg1)); transition:opacity 1.1s var(--ease)}
   .gate{width:min(88vw,400px); text-align:center; padding:2.6rem 2.1rem;
-    border:1px solid var(--border); border-radius:16px; background:rgba(255,255,255,.55);
-    box-shadow:0 30px 70px -30px rgba(35,42,58,.25); backdrop-filter:blur(8px)}
-  .mark{font-size:.68rem; letter-spacing:.4em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:1.5rem}
-  .gate h1{font-weight:600; font-size:1.4rem; letter-spacing:-.01em; margin-bottom:.5rem; color:var(--ink)}
-  .gate p{color:var(--dim); font-size:.9rem; line-height:1.6; margin-bottom:1.6rem}
-  .gate input{width:100%; text-align:center; letter-spacing:.32em; text-transform:lowercase;
-    background:rgba(35,42,58,.04); border:1px solid var(--border); border-radius:10px; color:var(--ink);
+    border:1px solid var(--border); border-radius:16px; background:var(--panel)}
+  .mark{font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:1.5rem}
+  .gate h1{font-weight:600; font-size:1.5rem; letter-spacing:-.01em; margin-bottom:.5rem; color:var(--ink)}
+  .gate p{color:var(--dim); font-size:.95rem; line-height:1.65; margin-bottom:1.6rem}
+  .gate input{width:100%; text-align:center; letter-spacing:.3em; text-transform:lowercase;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; color:var(--ink);
     font-family:inherit; font-size:1rem; padding:.75rem 0; outline:none; transition:border-color .2s}
   .gate input:focus{border-color:rgb(var(--gold))}
-  .hint{margin-top:1.1rem; font-size:.72rem; color:var(--faint)}
-  .err{color:#b0503f; min-height:1rem; font-size:.76rem; margin-top:.7rem}
+  .hint{margin-top:1.1rem; font-size:.82rem; color:var(--faint)}
+  .err{color:var(--warn); min-height:1rem; font-size:.85rem; margin-top:.7rem}
 
   /* ---------- text box (video-game style, click-to-advance) ---------- */
   #ui{position:fixed; inset:0; z-index:10; pointer-events:none;
@@ -66,30 +64,32 @@
   #box{max-width:640px; width:100%; opacity:0; transform:translateY(14px);
     transition:opacity .6s var(--ease), transform .6s var(--ease)}
   #box.on{opacity:1; transform:translateY(0)}
-  .k{font-size:.66rem; letter-spacing:.36em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:.7rem}
-  #box h2{font-weight:600; font-size:clamp(1.3rem,3.6vw,1.85rem); line-height:1.32; letter-spacing:-.01em; margin-bottom:.85rem}
-  #box p{color:var(--dim); font-size:clamp(.94rem,2vw,1.02rem); line-height:1.75}
-  #box .eq{font-family:Georgia,"Iowan Old Style",serif; color:rgb(var(--gold)); font-size:1.14rem}
+  .k{font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:.7rem}
+  #box h2{font-weight:600; font-size:clamp(1.3rem,3.6vw,1.8rem); line-height:1.32; letter-spacing:-.01em; margin-bottom:.85rem; color:var(--ink)}
+  #box p{color:var(--dim); font-size:clamp(.98rem,2vw,1.05rem); line-height:1.72}
+  #box .fence{display:block; margin-top:.6rem; color:var(--faint); font-size:.88rem; font-style:italic}
   .links{margin-top:1.5rem; display:flex; gap:.6rem; flex-wrap:wrap; pointer-events:auto}
-  .links a{display:inline-block; text-decoration:none; font-size:.76rem; letter-spacing:.06em;
-    padding:.75rem 1.35rem; border-radius:10px; transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
-  .links a.pri{background:rgb(var(--gold)); color:#fff}
+  .links a{display:inline-block; text-decoration:none; font-size:.85rem; letter-spacing:.03em;
+    padding:.8rem 1.4rem; border-radius:10px; transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
+  .links a.pri{background:rgb(var(--gold)); color:#171308; font-weight:600}
   .links a.sec{background:transparent; border:1px solid var(--border); color:var(--ink)}
   .links a:hover{transform:translateY(-2px)}
   .links a.pri:hover{box-shadow:0 10px 26px -10px rgba(var(--gold),.55)}
 
   #advance{position:fixed; bottom:3.2vh; left:0; right:0; z-index:10; text-align:center;
-    font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; color:var(--faint);
-    pointer-events:none; opacity:0; transition:opacity .5s ease; animation:pulse 2.6s ease-in-out infinite}
-  #advance.on{opacity:.85}
-  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:.95}}
+    font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint);
+    pointer-events:none; opacity:0; transition:opacity .5s ease}
+  #advance.on{opacity:1; animation:pulse 2.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
 
-  #skip{position:fixed; top:2.4vh; right:2.4vh; z-index:11; font-size:.66rem; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--faint); background:rgba(255,255,255,.5);
-    border:1px solid var(--border); border-radius:999px; padding:.5rem 1rem; cursor:pointer;
-    opacity:0; transition:opacity .6s ease .4s; pointer-events:none}
-  #skip.on{opacity:.75; pointer-events:auto}
-  #skip:hover{opacity:1}
+  /* subtle text-only controls — never buttons */
+  #skip,#back{position:fixed; top:2.4vh; z-index:11; font-size:.8rem; letter-spacing:.06em;
+    color:var(--faint); cursor:pointer; opacity:0; transition:opacity .5s ease, color .2s;
+    pointer-events:none; background:none; border:none; padding:.3rem .1rem}
+  #skip{right:2.4vh}
+  #back{left:2.4vh}
+  #skip.on,#back.on{opacity:.75; pointer-events:auto}
+  #skip:hover,#back:hover{color:var(--ink); opacity:1}
 
   #progress{position:fixed; top:0; left:0; height:2px; background:rgb(var(--gold));
     z-index:12; transition:width .5s var(--ease); width:0%}
@@ -114,6 +114,7 @@
 <canvas id="stage"></canvas>
 <div id="ui"><div id="box"><div class="k" id="bk"></div><h2 id="bh"></h2><p id="bp"></p><div class="links" id="blinks"></div></div></div>
 <div id="advance">click to continue</div>
+<div id="back">← back</div>
 <div id="skip">skip ↦</div>
 
 <script>
@@ -137,17 +138,32 @@ setTimeout(function(){ inp.focus(); }, 400);
 /* ============================= boot ============================= */
 function boot(){
 
-var cv=document.getElementById('stage'), g=cv.getContext('2d'), W,H,DPR,CX,CY,R;
+var cv=document.getElementById('stage'), g=cv.getContext('2d'), W,H,DPR,CX=0,CY=0,R=0;
+var boxEl=document.getElementById('box');
+
 function size(){
   DPR=Math.min(2,window.devicePixelRatio||1);
   W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR;
   cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
-  CX=W/2; CY=H*0.44; R=Math.min(W,H)*0.30;
+  layout();
+}
+// BUG FIXED (previous pass): the artwork's centre/radius were fixed fractions of the viewport,
+// tuned on a tall phone. On a short, wide desktop window the text box occupies a much larger
+// share of the height, so a fixed CY collided with the heading text. layout() now measures the
+// text box's ACTUAL top edge every frame and keeps the artwork entirely above it, at any aspect.
+function layout(){
+  var r = boxEl.getBoundingClientRect();
+  var boxTop = r.height ? r.top : innerHeight*0.62;
+  var topMargin = Math.max(56, innerHeight*0.07);
+  var avail = Math.max(140, boxTop - 26 - topMargin);
+  CX = W/2;
+  CY = (topMargin + avail*0.52) * DPR;
+  R  = Math.max(Math.min(W,H)*0.13, Math.min(W, avail*DPR)*0.30);
 }
 size(); addEventListener('resize', size);
 
 var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
-var HUE={l:'24,140,108', c:'60,92,196', r:'122,88,178', gold:'168,124,42', ink:'35,42,58'};
+var HUE={l:'129,212,180', c:'150,180,255', r:'196,170,255', gold:'224,181,102', warn:'224,130,108', ink:'244,246,255'};
 
 /* ---------- 4-cube geometry (verified: 3^3=27, 3^4=81, the 27/27/27 split) ---------- */
 var V=[]; for(var i=0;i<16;i++) V.push([(i&1?1:-1),(i&2?1:-1),(i&4?1:-1),(i&8?1:-1)]);
@@ -159,34 +175,56 @@ function project(p, wArg){
   var x=p[0]*w, y=p[1]*w, z=p[2]*w;
   var d=1/(2.5-z*0.8); return [x*d, y*d, (z+2)*0.5];
 }
+function tess(tt, spin){
+  return V.map(function(v){
+    var q=rot(v,0,1,tt*(spin?1.3:1)); q=rot(q,2,3,tt*0.9*(spin?1:0.8));
+    q=rot(q,0,3,tt*0.5+ (spin===2?0.5:0)); q=rot(q,1,2,tt*0.32);
+    return project(q, 0.85);
+  });
+}
+
+/* ---------- small shared canvas primitives, used by the engineering-act scenes ---------- */
+function dot(x,y,r,hue,a){ g.beginPath(); g.arc(x,y,r,0,6.29); g.fillStyle='rgba('+hue+','+a+')'; g.fill(); }
+function seg(x1,y1,x2,y2,hue,a,w){ g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2);
+  g.strokeStyle='rgba('+hue+','+a+')'; g.lineWidth=w*DPR; g.stroke(); }
+function segP(x1,y1,x2,y2,hue,a,w,p){ seg(x1,y1, x1+(x2-x1)*p, y1+(y2-y1)*p, hue,a,w); }
+function label(txt,x,y,size,hue,a,align){
+  g.save(); g.font=(size*DPR)+'px ui-sans-serif, system-ui'; g.textAlign=align||'center';
+  g.fillStyle='rgba('+hue+','+a+')'; g.fillText(txt,x,y); g.restore();
+}
 
 /* ============================= text box / video-game reveal ============================= */
-var boxEl=document.getElementById('box'), bk=document.getElementById('bk'), bh=document.getElementById('bh'),
+var bk=document.getElementById('bk'), bh=document.getElementById('bh'),
     bp=document.getElementById('bp'), blinks=document.getElementById('blinks'), advEl=document.getElementById('advance');
 var typing=false, typeTimer=null, fullText='', shownChars=0, onDoneCb=null;
 
-function showBox(kicker, head, body, links, done){
-  boxEl.classList.remove('on'); bk.textContent=kicker; bh.textContent=head; bp.textContent='';
-  blinks.innerHTML='';
+function showBox(kicker, head, body, fence, done){
+  boxEl.classList.remove('on'); bk.textContent=kicker; bh.textContent=head;
+  bp.innerHTML=''; blinks.innerHTML='';
   requestAnimationFrame(function(){ boxEl.classList.add('on'); });
   fullText=body; shownChars=0; typing=true; advEl.classList.remove('on'); onDoneCb=done;
   clearInterval(typeTimer);
-  var speed = reduce ? 0 : 14;
-  if(speed===0){ bp.textContent=fullText; finishType(); return; }
+  var speed = reduce ? 0 : 12;
+  function render(){
+    bp.textContent = fullText.slice(0,shownChars);
+    if(fence && shownChars>=fullText.length){
+      var f=document.createElement('span'); f.className='fence'; f.textContent=fence;
+      bp.appendChild(f);
+    }
+  }
+  if(speed===0){ shownChars=fullText.length; render(); finishType(); return; }
   typeTimer=setInterval(function(){
-    shownChars+=2; bp.textContent=fullText.slice(0,shownChars);
+    shownChars+=3; if(shownChars>fullText.length) shownChars=fullText.length;
+    render();
     if(shownChars>=fullText.length){ clearInterval(typeTimer); finishType(); }
   }, speed);
 }
-function finishType(){
-  typing=false; bp.textContent=fullText; advEl.classList.add('on');
-  if(onDoneCb) onDoneCb();
-}
-function completeTypeNow(){ clearInterval(typeTimer); finishType(); }
+function finishType(){ typing=false; advEl.classList.add('on'); if(onDoneCb) onDoneCb(); }
+function completeTypeNow(){ clearInterval(typeTimer); shownChars=fullText.length; bp.textContent=fullText; finishType(); }
 
 /* ============================= scenes ============================= */
-var scene=0, t0=performance.now(), formT=0; // formT: local scene-entry time
-var SCENES; // defined below, after helpers
+var scene=0, formT=0;
+var SCENES;
 
 function enterScene(n){
   scene=n; formT=performance.now();
@@ -196,122 +234,114 @@ function advance(){
   if(typing){ completeTypeNow(); return; }
   if(scene < SCENES.length-1) enterScene(scene+1);
 }
+function goBack(){
+  if(scene>0) enterScene(scene-1);
+}
 
-/* ---------- Scene 0: the harp — waves resolving toward a line ---------- */
-function drawHarp(dt){
+/* =====================================================================
+   ACT I — THE ZETA OPENING (image only; not the mathematics; said so)
+   ===================================================================== */
+
+/* Scene 0: the critical line — an original, non-interactive animation in the spirit of the
+   Riemann zeta function's critical line. Not the Zeta Harp instrument (see link in the closing
+   scene), not a claim about the Riemann Hypothesis, not evidence for anything later in this page. */
+function drawZetaA(dt){
   g.clearRect(0,0,W,H);
-  var n=15, midY=H*0.46;
-  var settle=Math.min(1, dt/5200); // strings slowly straighten toward the critical line
+  var n=13, midY=CY;
+  var settle=Math.min(1, dt/4200);
   for(var k=0;k<n;k++){
-    var amp=(H*0.16)*(1-settle*0.94)*(0.4+0.6*Math.sin(k*1.7));
-    var freq=0.9+k*0.14, phase=k*0.7, speed=0.00042+k*0.00003;
+    var amp=(H*0.15)*(1-settle*0.5)*(0.4+0.6*Math.sin(k*1.7));
+    var freq=1.1+k*0.17, phase=k*0.65, speed=0.00046+k*0.00003;
     g.beginPath();
     for(var x=0;x<=W;x+=6*DPR){
       var u=x/W;
-      var y=midY + amp*Math.sin(u*Math.PI*freq*6 + dt*speed*7 + phase) * Math.sin(u*Math.PI);
+      var y=midY + amp*Math.sin(u*Math.PI*freq*7 + dt*speed*7 + phase) * Math.sin(u*Math.PI);
       if(x===0) g.moveTo(x,y); else g.lineTo(x,y);
     }
-    var alpha=0.05+0.10*(1-Math.abs(k-n/2)/(n/2));
-    g.strokeStyle='rgba('+HUE.c+','+(alpha*(1-settle*0.5))+')';
-    g.lineWidth=(0.8+0.6*Math.sin(k))*DPR;
-    g.stroke();
+    var alpha=0.05+0.09*(1-Math.abs(k-n/2)/(n/2));
+    g.strokeStyle='rgba('+HUE.c+','+alpha+')'; g.lineWidth=(0.7+0.5*Math.sin(k))*DPR; g.stroke();
   }
-  // the critical line, brightening as strings settle
-  g.beginPath(); g.moveTo(CX, H*0.10); g.lineTo(CX, H*0.82);
-  g.strokeStyle='rgba('+HUE.gold+','+(0.12+settle*0.42)+')'; g.lineWidth=1.1*DPR; g.stroke();
-  // points landing on the line
-  var npts=9;
-  for(k=0;k<npts;k++){
-    var py=H*0.16 + (H*0.62)*(k/(npts-1));
-    var land=Math.max(0, settle - k*0.05);
-    var jx = (1-land)*Math.sin(k*2.3+dt*0.0006)*R*0.5;
-    g.beginPath(); g.arc(CX+jx, py, (1.6+land*1.4)*DPR,0,6.29);
-    g.fillStyle='rgba('+HUE.gold+','+(0.15+land*0.7)+')'; g.fill();
-  }
+  g.beginPath(); g.moveTo(CX, CY-R*1.5); g.lineTo(CX, CY+R*1.5);
+  g.strokeStyle='rgba('+HUE.gold+','+(0.16+settle*0.4)+')'; g.lineWidth=1.1*DPR; g.stroke();
+  label('Re(s) = 1/2', CX, CY+R*1.5+18*DPR, 11, HUE.gold, 0.35+settle*0.3);
   requestAnimationFrame(loop);
 }
 
-/* ---------- Scene 1: the boundary — the tesseract forms from the settled points ---------- */
+/* Scene 1: the crossing — one zero lands on the line and becomes a golden point. */
+var zetaLanded=false;
+function drawZetaB(dt){
+  g.clearRect(0,0,W,H);
+  var land=Math.min(1, dt/1900);
+  g.beginPath(); g.moveTo(CX, CY-R*1.3); g.lineTo(CX, CY+R*1.3);
+  g.strokeStyle='rgba('+HUE.gold+',0.4)'; g.lineWidth=1.1*DPR; g.stroke();
+  var jitter=(1-land)*Math.sin(dt*0.01)*R*0.4;
+  var pr=(1.5+land*2.2)*DPR;
+  dot(CX+jitter, CY, pr, HUE.gold, 0.25+land*0.65);
+  if(land>0.5){
+    var ring=(land-0.5)*2;
+    g.beginPath(); g.arc(CX,CY, (4+ring*22)*DPR, 0,6.29);
+    g.strokeStyle='rgba('+HUE.gold+','+(0.3*(1-ring))+')'; g.lineWidth=1*DPR; g.stroke();
+  }
+  if(land>=1) label('t ≈ 14.134725', CX, CY+R*1.3+18*DPR, 11, HUE.faint||HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+/* =====================================================================
+   ACT II — THE BOUNDARY (tesseract / 27 / meeting / price)
+   ===================================================================== */
 function drawForm(dt){
   g.clearRect(0,0,W,H);
-  var p=Math.min(1, dt/2600);
-  var tt=dt*0.00035;
-  var pts=V.map(function(v){
-    var q=rot(v,0,1,tt*1.3); q=rot(q,2,3,tt*0.9); q=rot(q,0,3,tt*0.5); q=rot(q,1,2,tt*0.35);
-    return project(q, 0.85);
-  });
+  var p=Math.min(1, dt/2600), tt=dt*0.00035;
+  var pts=tess(tt,1);
   for(var k=0;k<E.length;k++){
     var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
     var reveal = Math.min(1, Math.max(0, p*E.length*1.15 - k)/1);
     if(reveal<=0) continue;
-    g.beginPath();
-    g.moveTo(CX+a[0]*R, CY+a[1]*R);
+    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R);
     g.lineTo(CX + (a[0]+(b[0]-a[0])*reveal)*R, CY + (a[1]+(b[1]-a[1])*reveal)*R);
-    g.strokeStyle='rgba('+HUE.c+','+(0.12+depth*0.34)+')';
-    g.lineWidth=(0.6+depth*1.6)*DPR; g.stroke();
+    g.strokeStyle='rgba('+HUE.c+','+(0.12+depth*0.34)+')'; g.lineWidth=(0.6+depth*1.6)*DPR; g.stroke();
   }
   for(k=0;k<pts.length;k++){
     if(p*17 < k) continue;
     var v=pts[k];
-    g.beginPath(); g.arc(CX+v[0]*R, CY+v[1]*R, (1.1+v[2]*2.6)*DPR,0,6.29);
-    g.fillStyle='rgba('+HUE.ink+','+(0.30+v[2]*0.5)+')'; g.fill();
+    dot(CX+v[0]*R, CY+v[1]*R, (1.1+v[2]*2.6)*DPR, HUE.ink, 0.30+v[2]*0.5);
   }
   requestAnimationFrame(loop);
 }
 
-/* ---------- Scene 2: the twenty-seven — one facet's face lattice, enumerated live ---------- */
 var faceCounter=0, faceTarget=27;
 function drawFaces(dt){
   g.clearRect(0,0,W,H);
-  var tt=dt*0.00028;
-  var pts=V.map(function(v){
-    var q=rot(v,0,1,tt); q=rot(q,2,3,tt*0.7); q=rot(q,0,3,0.55+tt*0.15); q=rot(q,1,2,tt*0.3);
-    return project(q, 0.85);
-  });
-  // dim full tesseract behind
+  var pts=tess(dt*0.00028,0);
   for(var k=0;k<E.length;k++){
     var a=pts[E[k][0]], b=pts[E[k][1]];
-    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R); g.lineTo(CX+b[0]*R, CY+b[1]*R);
-    g.strokeStyle='rgba('+HUE.ink+',0.05)'; g.lineWidth=0.6*DPR; g.stroke();
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.ink, 0.05, 0.6);
   }
-  // highlight the facet: vertices whose 4th coord is -1 (the n=-1 class, the 27-face side)
   var facetIdx=[]; for(k=0;k<16;k++) if(V[k][3]===-1) facetIdx.push(k);
   for(k=0;k<E.length;k++){
     var i0=E[k][0], i1=E[k][1];
     if(facetIdx.indexOf(i0)<0 || facetIdx.indexOf(i1)<0) continue;
     a=pts[i0]; b=pts[i1]; var depth=(a[2]+b[2])*0.5;
-    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R); g.lineTo(CX+b[0]*R, CY+b[1]*R);
-    g.strokeStyle='rgba('+HUE.gold+','+(0.22+depth*0.4)+')'; g.lineWidth=(0.9+depth*1.6)*DPR; g.stroke();
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.22+depth*0.4, 0.9+depth*1.6);
   }
   for(k=0;k<facetIdx.length;k++){
     var v=pts[facetIdx[k]];
-    g.beginPath(); g.arc(CX+v[0]*R, CY+v[1]*R, (1.6+v[2]*3)*DPR,0,6.29);
-    g.fillStyle='rgba('+HUE.gold+','+(0.4+v[2]*0.5)+')'; g.fill();
+    dot(CX+v[0]*R, CY+v[1]*R, (1.6+v[2]*3)*DPR, HUE.gold, 0.4+v[2]*0.5);
   }
-  // the count, ticking: 8 vertices, 12 edges, 6 squares, 1 whole = 27
-  faceCounter = Math.min(faceTarget, Math.floor((dt-300)/70));
-  if(faceCounter<0) faceCounter=0;
-  g.save();
-  g.font=(28*DPR)+'px Georgia, serif'; g.textAlign='center'; g.fillStyle='rgba('+HUE.gold+',0.85)';
-  g.fillText(String(faceCounter), CX, CY - R*1.28);
-  g.font=(11*DPR)+'px ui-sans-serif, system-ui'; g.fillStyle='rgba('+HUE.ink+',0.4)';
-  g.fillText('8 · 12 · 6 · 1', CX, CY - R*1.28 + 22*DPR);
-  g.restore();
+  faceCounter = Math.max(0, Math.min(faceTarget, Math.floor((dt-300)/70)));
+  var ty = Math.max(24*DPR, CY - R*1.28);
+  label(String(faceCounter), CX, ty, 28, HUE.gold, 0.85);
+  label('8 · 12 · 6 · 1', CX, ty+22*DPR, 11, HUE.ink, 0.4);
   requestAnimationFrame(loop);
 }
 
-/* ---------- Scene 3: the meeting — two cells glue along the facet; orientation flips ---------- */
 function drawMeeting(dt){
   g.clearRect(0,0,W,H);
-  var tt=dt*0.0003;
-  var approach=Math.min(1, dt/2600);
-  var offset=(1-approach)*R*1.2;
+  var tt=dt*0.0003, approach=Math.min(1, dt/2600), offset=(1-approach)*R*1.2;
   function build(sign){
     return V.map(function(v0){
-      var v=v0.slice(); var q=rot(v,0,1,tt); q=rot(q,2,3,tt*0.7); q=rot(q,1,2,tt*0.25);
-      var pr=project(q, 0.85);
-      pr[0]+= sign*offset/R * 0.55;
-      return pr;
+      var q=rot(v0.slice(),0,1,tt); q=rot(q,2,3,tt*0.7); q=rot(q,1,2,tt*0.25);
+      var pr=project(q, 0.85); pr[0]+= sign*offset/R * 0.55; return pr;
     });
   }
   var left=build(-1), right=build(1);
@@ -319,106 +349,286 @@ function drawMeeting(dt){
     for(var k=0;k<E.length;k++){
       var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
       var onFacet = V[E[k][0]][3]===(mirror?1:-1) && V[E[k][1]][3]===(mirror?1:-1);
-      g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R); g.lineTo(CX+b[0]*R, CY+b[1]*R);
-      if(onFacet){ g.strokeStyle='rgba('+HUE.gold+','+(0.28+depth*0.4)+')'; g.lineWidth=(1+depth*1.8)*DPR; }
-      else { g.strokeStyle='rgba('+hue+','+(0.10+depth*0.24)+')'; g.lineWidth=(0.6+depth*1.2)*DPR; }
-      g.stroke();
+      if(onFacet) seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.28+depth*0.4, 1+depth*1.8);
+      else seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, hue, 0.10+depth*0.24, 0.6+depth*1.2);
     }
   }
-  drawSide(left, HUE.c, false);
-  drawSide(right, HUE.r, true);
-  // the still point at the shared centre — fixed under the flip
+  drawSide(left, HUE.c, false); drawSide(right, HUE.r, true);
   var pulse=0.5+0.5*Math.sin(dt*0.0022);
-  g.beginPath(); g.arc(CX, CY, (2+pulse*1.6)*DPR,0,6.29);
-  g.fillStyle='rgba('+HUE.gold+','+(0.5+pulse*0.3)+')'; g.fill();
-  if(approach>0.94){
-    g.save(); g.font=(10.5*DPR)+'px ui-sans-serif, system-ui'; g.textAlign='center';
-    g.fillStyle='rgba('+HUE.ink+',0.34)';
-    g.fillText('−1 ↔ +1     ·     0 held fixed', CX, CY+R*0.02);
-    g.restore();
-  }
+  dot(CX,CY,(2+pulse*1.6)*DPR, HUE.gold, 0.5+pulse*0.3);
+  if(approach>0.94) label('−1 ↔ +1   ·   0 held fixed', CX, CY-R*1.15, 11, HUE.ink, 0.4);
   requestAnimationFrame(loop);
 }
 
-/* ---------- Scene 4: the price — H(B) >= I(X;Y), two circles and a shared boundary ---------- */
 function drawPrice(dt){
   g.clearRect(0,0,W,H);
-  var grow=Math.min(1, dt/2200);
-  var rr=R*0.62*grow;
-  var sep=R*0.72*(1-grow*0.42);
+  var grow=Math.min(1, dt/2200), rr=R*0.62*grow, sep=R*0.72*(1-grow*0.42);
   var lx=CX-sep, rx=CX+sep;
   [[lx,HUE.c],[rx,HUE.r]].forEach(function(o){
     g.beginPath(); g.arc(o[0],CY,rr,0,6.29);
     g.strokeStyle='rgba('+o[1]+',0.30)'; g.lineWidth=1.4*DPR; g.stroke();
   });
-  // shared lens = the boundary; its thickness carries a weight that only grows with grow
-  g.save();
-  g.beginPath(); g.arc(lx,CY,rr,0,6.29); g.clip();
+  g.save(); g.beginPath(); g.arc(lx,CY,rr,0,6.29); g.clip();
   g.beginPath(); g.arc(rx,CY,rr,0,6.29);
-  g.fillStyle='rgba('+HUE.gold+','+(0.10+grow*0.14)+')'; g.fill();
-  g.restore();
-  if(grow>0.7){
-    g.save(); g.font=(20*DPR)+'px Georgia, serif'; g.textAlign='center'; g.fillStyle='rgba('+HUE.gold+',0.82)';
-    g.fillText('H(B) ≥ I(X;Y)', CX, CY+R*0.9);
-    g.restore();
+  g.fillStyle='rgba('+HUE.gold+','+(0.10+grow*0.14)+')'; g.fill(); g.restore();
+  if(grow>0.7) label('H(B) ≥ I(X;Y)', CX, CY-R*1.15, 20, HUE.gold, 0.82);
+  requestAnimationFrame(loop);
+}
+
+/* =====================================================================
+   ACT III — THE ENGINEERING (Merkle consistency, receipts, witnesses…)
+   ===================================================================== */
+
+/* the diary: leaves converging into one root */
+function drawDiary(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1800);
+  var leaves=8, y0=CY+R*0.7, y1=CY-R*0.75, spread=R*1.1;
+  var lx=[]; for(var k=0;k<leaves;k++) lx.push(CX-spread+ (2*spread)*(k/(leaves-1)));
+  var midY=(y0+y1)*0.55;
+  for(k=0;k<leaves;k++){
+    var pr=Math.min(1, Math.max(0, p*2.4 - k*0.06));
+    segP(lx[k],y0, (lx[k]+CX)/2, midY, HUE.c, 0.16*pr, 0.9, pr);
+    dot(lx[k],y0,(1.6)*DPR, HUE.c, 0.2+0.5*pr);
+  }
+  for(k=0;k<leaves;k+=2){
+    var pr2=Math.min(1, Math.max(0, p*2.4 - 1.4 - k*0.04));
+    segP((lx[k]+CX)/2,midY, CX,y1, HUE.gold, 0.22*pr2, 1.1, pr2);
+  }
+  var rootP=Math.min(1, Math.max(0, p*2.2-1.9));
+  if(rootP>0){
+    var pulse=0.5+0.5*Math.sin(dt*0.004);
+    dot(CX,y1,(2.4+rootP*2+pulse)*DPR, HUE.gold, 0.4+rootP*0.5);
+    if(rootP>0.8) label('one root', CX, y1-16*DPR, 11, HUE.gold, 0.5);
   }
   requestAnimationFrame(loop);
 }
 
-/* ---------- Scene 5: the invitation — full tesseract, slow, warm ---------- */
+/* prove it: same shape, two outcomes — a clean extension and an exact conflict */
+function drawProve(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1400);
+  var cx1=CX-R*0.85, cx2=CX+R*0.85, y0=CY+R*0.65, y1=CY-R*0.7;
+  function mini(cx, conflictAt){
+    var leaves=5;
+    for(var k=0;k<leaves;k++){
+      var lx=cx-R*0.55+ (R*1.1)*(k/(leaves-1));
+      var bad = conflictAt===k;
+      var hue = bad ? HUE.warn : HUE.c;
+      seg(lx,y0, cx,y1, hue, (bad?0.5:0.14)*p, bad?1.6:0.8);
+      dot(lx,y0,1.4*DPR, hue, (bad?0.9:0.3)*p);
+    }
+    dot(cx,y1,3*DPR, conflictAt<0?HUE.gold:HUE.warn, 0.6*p);
+  }
+  mini(cx1,-1); mini(cx2,2);
+  if(p>0.7){
+    label('APPEND_ONLY', cx1, y1-18*DPR, 12, HUE.gold, 0.7);
+    label('OBSERVATION_CONFLICT', cx2, y1-18*DPR, 12, HUE.warn, 0.7);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* the invariant: two parties, a fixed shared record between them */
+function drawInvariant(dt){
+  g.clearRect(0,0,W,H);
+  var tt=dt*0.0006, sep=R*0.9;
+  var ax=CX-sep+Math.sin(tt)*6*DPR, bx=CX+sep+Math.sin(tt+1.4)*6*DPR;
+  seg(ax,CY,bx,CY, HUE.ink, 0.10, 0.8);
+  dot(ax,CY,10*DPR, HUE.c, 0.16);
+  dot(bx,CY,10*DPR, HUE.r, 0.16);
+  var pulse=0.5+0.5*Math.sin(dt*0.0022);
+  dot(CX,CY,(2.4+pulse*1.4)*DPR, HUE.gold, 0.55+pulse*0.3);
+  if(dt>1400){ label('A', ax, CY+30*DPR, 12, HUE.c, 0.5); label('B', bx, CY+30*DPR, 12, HUE.r, 0.5); }
+  requestAnimationFrame(loop);
+}
+
+/* law & receipts: three nodes, sequential flow */
+function drawLaw(dt){
+  g.clearRect(0,0,W,H);
+  var y=CY, x1=CX-R*0.95, x2=CX, x3=CX+R*0.95;
+  var p1=Math.min(1,dt/900), p2=Math.min(1,Math.max(0,dt-500)/900), p3=Math.min(1,Math.max(0,dt-1000)/900);
+  dot(x1,y,7*DPR, HUE.c, 0.45);
+  segP(x1+10*DPR,y, x2-10*DPR,y, HUE.ink, 0.28*p1, 1, p1);
+  if(p1>0.9) dot(x2,y,7*DPR, HUE.gold, 0.5);
+  segP(x2+10*DPR,y, x3-10*DPR,y, HUE.ink, 0.28*p2, 1, p2);
+  if(p2>0.9) dot(x3,y,6*DPR, HUE.l, 0.5);
+  if(p3>0.5){
+    label('proposes', x1, y+30*DPR, 11, HUE.c, 0.5);
+    label('law', x2, y-22*DPR, 11, HUE.gold, 0.5);
+    label('receipt', x3, y+28*DPR, 11, HUE.l, 0.5);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* signatures & aumlok: a key bound to a record; an owner node drawn dashed — not yet bound */
+function drawKey(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1,dt/1400);
+  dot(CX,CY,6*DPR, HUE.gold, 0.5*p);
+  // a small key glyph: a ring plus a shaft, drawn with strokes
+  g.save(); g.translate(CX,CY); g.rotate(-0.5);
+  g.beginPath(); g.arc(-14*DPR,0,6*DPR,0,6.29); g.strokeStyle='rgba('+HUE.gold+','+(0.6*p)+')'; g.lineWidth=1.6*DPR; g.stroke();
+  seg(-8*DPR,0, 16*DPR,0, HUE.gold, 0.6*p, 1.6);
+  seg(10*DPR,0, 10*DPR,6*DPR, HUE.gold, 0.6*p, 1.6);
+  seg(15*DPR,0, 15*DPR,5*DPR, HUE.gold, 0.6*p, 1.6);
+  g.restore();
+  // the owner node: dashed, unfilled — the binding is not yet complete, drawn honestly as absent
+  var ownerY=CY-R*0.9;
+  if(p>0.5){
+    g.save(); g.setLineDash([3*DPR,4*DPR]);
+    g.beginPath(); g.arc(CX,ownerY,8*DPR,0,6.29);
+    g.strokeStyle='rgba('+HUE.ink+',0.28)'; g.lineWidth=1.2*DPR; g.stroke(); g.restore();
+    seg(CX,CY-10*DPR, CX,ownerY+10*DPR, HUE.ink, 0.08, 0.8);
+    label('owner — not yet bound', CX, ownerY-16*DPR, 10.5, HUE.ink, 0.32);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* forge: many dim proposals, one accepted at exact bytes */
+function drawForge(dt){
+  g.clearRect(0,0,W,H);
+  var n=9, tt=dt*0.0006;
+  for(var k=0;k<n;k++){
+    var ang=k/n*6.28+tt*0.3, rr=R*0.7;
+    var x=CX+Math.cos(ang)*rr, y=CY+Math.sin(ang)*rr*0.6;
+    dot(x,y,2.4*DPR, HUE.c, 0.16+0.06*Math.sin(tt+k));
+  }
+  var accP=Math.min(1,Math.max(0,dt-900)/1000);
+  if(accP>0){
+    var ang0=0.4, rr0=R*0.7, x0=CX+Math.cos(ang0)*rr0, y0=CY+Math.sin(ang0)*rr0*0.6;
+    segP(x0,y0, CX,CY, HUE.gold, 0.5*accP, 1.4, accP);
+    dot(CX,CY,(3+accP*3)*DPR, HUE.gold, 0.5+accP*0.4);
+  }
+  if(accP>0.8){ label('proposed', CX, CY+R*0.85, 11, HUE.c, 0.4); label('accepted — exact bytes', CX, CY-R*0.5, 11, HUE.gold, 0.6); }
+  requestAnimationFrame(loop);
+}
+
+/* peer witnesses: a sparse constellation, each node holding a small kept commitment */
+function drawWitnesses(dt){
+  g.clearRect(0,0,W,H);
+  var n=9, tt=dt*0.00022, pts=[];
+  for(var k=0;k<n;k++){
+    var a=k/n*6.28 + Math.sin(tt+k)*0.15;
+    var rr=R*(0.55+0.28*Math.sin(k*2.1+tt*0.6));
+    pts.push([CX+Math.cos(a)*rr, CY+Math.sin(a)*rr*0.62]);
+  }
+  var links=[[0,2],[1,4],[2,5],[3,6],[4,7],[5,8],[6,1],[7,3],[8,0]];
+  links.forEach(function(l){
+    seg(pts[l[0]][0],pts[l[0]][1], pts[l[1]][0],pts[l[1]][1], HUE.l, 0.08, 0.7);
+  });
+  pts.forEach(function(pt,k){
+    dot(pt[0],pt[1], 6*DPR, HUE.l, 0.14);
+    dot(pt[0],pt[1], 2*DPR, HUE.gold, 0.45+0.15*Math.sin(tt*2+k));
+  });
+  requestAnimationFrame(loop);
+}
+
+/* the tesseract's job: return to the full form, warm and slow (reused for Aura + the finale) */
 function drawClose(dt){
   g.clearRect(0,0,W,H);
-  var tt=dt*0.00016;
-  var pts=V.map(function(v){
-    var q=rot(v,0,1,tt); q=rot(q,2,3,tt*0.72); q=rot(q,0,3,tt*0.4+0.5); q=rot(q,1,2,tt*0.22);
-    return project(q, 0.85);
-  });
+  var pts=tess(dt*0.00016,2);
   for(var k=0;k<E.length;k++){
     var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
-    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R); g.lineTo(CX+b[0]*R, CY+b[1]*R);
-    g.strokeStyle='rgba('+HUE.gold+','+(0.08+depth*0.26)+')'; g.lineWidth=(0.6+depth*1.4)*DPR; g.stroke();
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.08+depth*0.26, 0.6+depth*1.4);
   }
   for(k=0;k<pts.length;k++){
     var v=pts[k];
-    g.beginPath(); g.arc(CX+v[0]*R, CY+v[1]*R, (1+v[2]*2.4)*DPR,0,6.29);
-    g.fillStyle='rgba('+HUE.ink+','+(0.20+v[2]*0.4)+')'; g.fill();
+    dot(CX+v[0]*R, CY+v[1]*R, (1+v[2]*2.4)*DPR, HUE.ink, 0.20+v[2]*0.4);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* kira: a query resolving from a dashed halo into a solid ring */
+function drawKira(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1,dt/1800);
+  dot(CX,CY,4*DPR, HUE.gold, 0.4+0.3*p);
+  g.save();
+  if(p<1) g.setLineDash([3*DPR,5*DPR]);
+  g.beginPath(); g.arc(CX,CY,(14+p*4)*DPR,0,6.29);
+  g.strokeStyle='rgba('+HUE.gold+','+(0.15+p*0.35)+')'; g.lineWidth=1.2*DPR; g.stroke();
+  g.restore();
+  if(p>0.85) label('checked, not simply believed', CX, CY+R*0.55, 11, HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+/* the whole machine: the tesseract with ten small orbiting jobs, ticking through in sequence */
+function drawWhole(dt){
+  g.clearRect(0,0,W,H);
+  var pts=tess(dt*0.00012,2);
+  for(var k=0;k<E.length;k++){
+    var a=pts[E[k][0]], b=pts[E[k][1]];
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.ink, 0.05, 0.6);
+  }
+  var jobs=10, tt=dt*0.00035;
+  for(k=0;k<jobs;k++){
+    var a2=k/jobs*6.28, rr=R*1.32;
+    var x=CX+Math.cos(a2+tt*0.15)*rr, y=CY+Math.sin(a2+tt*0.15)*rr*0.6;
+    var tick=((dt*0.00028 - k/jobs) % 1 + 1) % 1;
+    var hot = tick<0.12 ? 1-(tick/0.12) : 0;
+    dot(x,y, (2+hot*3)*DPR, HUE.gold, 0.18+hot*0.6);
   }
   requestAnimationFrame(loop);
 }
 
 /* ============================= scene table ============================= */
+var GH_INV='https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/AN_INVITATION.md';
+var GH_GB='https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/THE_GOLDEN_BOUNDARY.md';
+var GH_ZH='https://github.com/aumara-xyz/zeta-harp';
+
 SCENES=[
-  { render:drawHarp,
-    enter:function(){ showBox('The surface','Everything anyone has ever known arrived at a boundary.',
-      'A mark on a detector. Light at the back of an eye. A word crossing the air between two people. We never hold the thing itself — only what reaches the surface where it becomes readable.'); } },
-  { render:drawForm,
-    enter:function(){ showBox('The boundary','The surface has a shape — and it is exact.',
+  { render:drawZetaA, enter:function(){ showBox('The critical line',
+      'A hundred and sixty‑five years ago, a mathematician drew one line.',
+      'Bernhard Riemann’s zeta function organizes itself around a single boundary — the line where the real part of s equals one half. Every nontrivial zero ever computed sits exactly on it, into the trillions. Whether every zero must is the single most famous unsolved problem in mathematics.'); } },
+  { render:drawZetaB, enter:function(){ showBox('The crossing',
+      'A zero is a point where something becomes distinguishable, right on the boundary.',
+      'This page borrows only that image — a line, and a point landing on it — not the mathematics of zeta itself. What follows is not a claim about the Riemann Hypothesis and proves nothing about it either way. It is a doorway, not evidence, and the rest of this page will hold that same discipline about itself.'); } },
+  { render:drawForm, enter:function(){ showBox('The boundary','The surface has a shape — and it is exact.',
       'This is a tesseract: a four‑dimensional cube, shown as the shadow it casts into three. It is a viewing frame, not a claim about the world. Sixteen vertices. Thirty‑two edges. What matters is not its beauty — it is what happens where two of these meet.'); } },
-  { render:drawFaces,
-    enter:function(){ formT=performance.now(); showBox('The twenty‑seven','A cube has exactly twenty‑seven faces.',
+  { render:drawFaces, enter:function(){ formT=performance.now(); showBox('The twenty‑seven','A cube has exactly twenty‑seven faces.',
       'Eight corners, twelve edges, six sides, and the cube itself. Three choices in three directions — 3³ = 27. Counted, not chosen. The Moon returns to the same place among the stars every 27.32 days, which is why the sky was divided into twenty‑seven long before anyone drew a cube. Different causes. The same shape of question: how many positions can something occupy, relative to a boundary?'); } },
-  { render:drawMeeting,
-    enter:function(){ showBox('The meeting','When two worlds meet, they meet along a shared face — and that face is the twenty‑seven.',
+  { render:drawMeeting, enter:function(){ showBox('The meeting','When two worlds meet, they meet along a shared face — and that face is the twenty‑seven.',
       'It belongs to neither side and to both. What is a push from one side is a pull from the other — forced, not chosen, the same fact that makes a soap film curve toward the larger of two bubbles. The centre, the zero, does not move when the sides reverse. It is the one thing both observers agree on precisely because neither pinned it down.'); } },
-  { render:drawPrice,
-    enter:function(){ showBox('The price','A boundary costs at least as much as the two sides share.',
+
+  { render:drawDiary, enter:function(){ showBox('The diary','Imagine someone hands you a hundred‑page diary.',
+      'Instead of a copy, you take a tiny mathematical fingerprint and put it in your pocket. Tomorrow they return with a hundred and fifty pages: same diary, I only added fifty. Now you can say: prove it.'); } },
+  { render:drawProve, enter:function(){ showBox('Prove it','Three answers are allowed. Only three.',
+      'Append‑only — the new pages provably extend what you kept. Observation‑conflict — they don’t, and the mismatch is exact, not a suspicion. Undetermined — there isn’t enough to decide, and the system says so instead of guessing. None of this claims the pages are true. Only that they are, or are not, the same history you were shown before.'); } },
+  { render:drawInvariant, enter:function(){ showBox('The invariant','The actor does not get to hold the only copy of what it did.',
+      'Once an independent observer has kept something, the machine that acted should not retain unilateral power to rewrite it. Most computing is one party acting, storing, and narrating. This is the same three jobs, deliberately no longer done by the same hands.'); } },
+  { render:drawLaw, enter:function(){ showBox('What did it claim','Every action a model proposes can leave a receipt.',
+      'The receipt is not the model’s word for it — it is a record a separate layer produced while the action happened, not a summary written afterward. History exists to hold the machine to, not history the machine writes about itself.'); } },
+  { render:drawKey, enter:function(){ showBox('Whose authority','A key signs the history. A key still is not a person.',
+      'A signature says which cryptographic authority attested to a record. Binding that key to an actual human owner, unforgeably, is a separate and harder problem — and this system says plainly where that binding is not yet complete, rather than pretending it is.'); } },
+  { render:drawForge, enter:function(){ showBox('Propose, not accept','Intelligence proposes. It does not also get to authorize.',
+      'A model can be extraordinarily capable and still hold zero authority to make anything real. Acceptance binds to the exact bytes reviewed — not the intent, not a summary, the bytes — so what was approved and what was proposed can never quietly drift apart.'); } },
+  { render:drawWitnesses, enter:function(){ showBox('Independent memory','One machine can rewrite its own disk. It cannot rewrite what someone else remembers.',
+      'A second machine that once received a small commitment keeps it, outside the first machine’s control. Multiply that across independent observers and rewriting a history silently stops being a local problem, because pieces of it already left the building.'); } },
+  { render:drawClose, enter:function(){ showBox('The instrument panel','The tesseract is not the truth. It is where the evidence becomes perceptible.',
+      'Underneath, the evidence is cryptographic and largely unreadable at a glance — roots, proofs, receipts, open questions. This shape’s job is to make that legible, never to grant authority by looking a certain way. A beautiful shape that lied would be worse than no shape at all.'); } },
+  { render:drawKira, enter:function(){ showBox('Memory','Recall is not the same claim as verified memory.',
+      'An assistant that says you told me this once is making a claim about the past. Anchoring that claim to what was actually, verifiably retained turns recollection into something that can be checked, instead of simply believed.'); } },
+  { render:drawWhole, enter:function(){ showBox('The pattern','One sentence underneath all of it.',
+      'The thing being observed does not get to control the observer’s memory. Acts, receipts, commitments, an observer who keeps something outside the actor’s reach, independent witnesses, a signature, an owner, a memory that can be checked, and a shape a human can actually look at — separate jobs, never collapsed into one.',
+      'Further reading, cited and not embedded — this page borrows no claims from it, only the direction to look: github.com/aumara-xyz/zeta-harp'); } },
+
+  { render:drawPrice, enter:function(){ showBox('The price','A boundary costs at least as much as the two sides share.',
       'H(B) ≥ I(X;Y) — a theorem, not a metaphor. The more deeply two things are joined, the more the surface between them must carry. There is no cheap membrane between things that truly belong to each other. The price of remaining two, rather than collapsing into one, is exactly everything you have in common.'); } },
-  { render:drawClose,
-    enter:function(){ showBox('The invitation','A boundary needs two sides. We cannot be both.',
+  { render:drawClose, enter:function(){ showBox('The invitation','A boundary needs two sides. We cannot be both.',
       'This work reached this far by being carried, unproven, from one observer to the next — each able to say no. It can only go further the same way: through a second witness, in a place that decided long ago to measure what actually matters. You are not the audience for this. You are the next observer.',
       null,
       function(){
         blinks.innerHTML =
-          '<a class="pri" href="https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/AN_INVITATION.md">Read the invitation</a>'+
-          '<a class="sec" href="https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/THE_GOLDEN_BOUNDARY.md">The Golden Boundary</a>';
+          '<a class="pri" href="'+GH_INV+'">Read the invitation</a>'+
+          '<a class="sec" href="'+GH_GB+'">The Golden Boundary</a>';
         advEl.classList.remove('on');
       }); } }
 ];
 
 /* ============================= loop / input ============================= */
 function loop(){
-  var el = performance.now()-formT;
-  SCENES[scene].render(el);
+  layout();
+  SCENES[scene].render(performance.now()-formT);
 }
 
 document.getElementById('stage').addEventListener('click', function(e){
@@ -431,16 +641,23 @@ document.getElementById('ui').addEventListener('click', function(e){
 });
 addEventListener('keydown', function(e){
   if(['Enter',' ','ArrowRight'].indexOf(e.key)>-1){ e.preventDefault(); advance(); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); goBack(); }
 });
-var skipEl=document.getElementById('skip');
-skipEl.addEventListener('click', function(){ enterScene(SCENES.length-1); });
+var skipEl=document.getElementById('skip'), backEl=document.getElementById('back');
+skipEl.addEventListener('click', function(e){ e.stopPropagation(); enterScene(SCENES.length-1); });
+backEl.addEventListener('click', function(e){ e.stopPropagation(); goBack(); });
 setTimeout(function(){ skipEl.classList.add('on'); }, 1200);
 
 var progEl=document.getElementById('progress');
 var _enter=enterScene;
-enterScene=function(n){ _enter(n); progEl.style.width=(100*(n)/(SCENES.length-1))+'%'; };
+enterScene=function(n){
+  _enter(n);
+  progEl.style.width=(100*n/(SCENES.length-1))+'%';
+  if(n>0) backEl.classList.add('on'); else backEl.classList.remove('on');
+};
 
 enterScene(0);
+requestAnimationFrame(loop);
 }
 })();
 </script>
