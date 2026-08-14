@@ -1,15 +1,13 @@
 # The Golden Boundary — An Invitation
 
-A fly-through invitation. The first minutes are the **real Zeta Harp**
-(WebGL2 tunnel from [aumara-xyz/zeta-harp](https://github.com/aumara-xyz/zeta-harp)) —
-look only, no cockpit. Then the door: genesis, a floating text box, the spatial room.
+The original click-through invitation. Gate, copy, and every scene are intact.
 
-**Live:** https://aukora.xyz/royal-invite/  
-**The instrument:** https://zeta-harp.kimi.page/
+The opening two beats now use the **real Zeta Harp** WebGL tunnel
+(vendored from [aumara-xyz/zeta-harp](https://github.com/aumara-xyz/zeta-harp), HUD hidden).
+From the tesseract onward, the original artwork and engineering narrative continue unchanged.
+
+**Live:** https://aukora.xyz/royal-invite/
 
 Password: the shape it's about, nine letters, lowercase.
 
-Vendored harp JS is unmodified. The invite layer (`js/invite.js`) hides the HUD,
-skips the controls tour, and drives camera distance + copy.
-
-Known mathematics. Not evidence. Evidence never authorizes.
+Known mathematics on the opening look. Not evidence. Evidence never authorizes.

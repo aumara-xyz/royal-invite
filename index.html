@@ -2,402 +2,113 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Golden Boundary — An Invitation</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="A fly-through of the Zeta Harp, then the first door into Aukora.">
+<meta name="description" content="A boundary, a tesseract, and an invitation — for the Royal University of Bhutan.">
+<meta name="theme-color" content="#11141d">
 <!--
-  KNOWN MATHEMATICS / INTERACTIVE SCIENTIFIC AND ARTISTIC INSTRUMENT /
-  NOT EVIDENCE FOR RH OR GHP
-  Built by the donor under instruments/zeta_harp_v2/ (its "Gates 3-6"). Self-contained: no CDN,
-  no network — verified in this repository by scan, and that half of this sentence is the only
-  external-flavoured claim in the file the file can point at: itself.
-  The donor's MATH_SPEC.md did NOT travel with this page and is not in this repository; every
-  "MATH_SPEC section N" below names a section of a document phi does not have.
+  aukora.xyz/royal-invite — self-contained: no frameworks, no trackers, no external requests.
+  A long click-through: a Riemann-zeta-inspired opening (image only, not the mathematics, and
+  said so on-screen) resolves into a boundary; the boundary reveals the twenty-seven; two cells
+  meet and neither merges; then the engineering story — Merkle consistency, receipts, propose vs
+  accept, peer witnesses, signatures, Aura as instrument panel, KIRA — then the cost theorem and
+  the invitation. Dark blue-grey (not black), light text, minimal, click/tap/keys to advance, a
+  subtle back control, no controllable Zeta Harp embedded — original non-interactive animation
+  only, citing github.com/aumara-xyz/zeta-harp as further reading, not as a source of claims.
 -->
 <style>
-/* Zeta Harp v2 — observatory chrome. Museum-dark, hairline, no neon grid. */
-:root {
-  --bg: #0a0f1c;
-  --ink: #c6d1e2;
-  --dim: #6b7890;
-  --faint: #3a4459;
-  --blue: #5b8ef2;    /* positive real contribution */
-  --purple: #a06bff;  /* negative real contribution */
-  --gold: #e2b45a;    /* resultant */
-  --hair: rgba(198, 214, 240, 0.13);
-  --panel: rgba(7, 10, 18, 0.82);
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --serif: Georgia, "Times New Roman", serif;
-  --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); }
-body { font-family: var(--sans); color: var(--ink); font-size: 15.5px; }
-canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  :root{
+    --hue-l: 129,212,180;
+    --hue-c: 150,180,255;
+    --hue-r: 196,170,255;
+    --gold:  224,181,102;
+    --warn:  224,130,108;
 
-.hud { position: fixed; z-index: 5; pointer-events: none; }
-.hud * { pointer-events: auto; }
+    --bg0:   #11141d;
+    --bg1:   #171c28;
+    --panel: rgba(255,255,255,.045);
+    --panel-br: rgba(255,255,255,.06);
+    --border:rgba(255,255,255,.10);
+    --ink:   rgba(244,246,255,.94);
+    --dim:   rgba(228,232,248,.72);
+    --faint: rgba(220,226,245,.56);
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%; overflow:hidden; background:var(--bg0); color:var(--ink);
+    font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; -webkit-font-smoothing:antialiased}
+  body{ background:linear-gradient(180deg, var(--bg0), var(--bg1)); }
+  canvas{position:fixed; inset:0; display:block; touch-action:none}
+  #stage{position:fixed; inset:0; cursor:pointer}
 
-/* ---- top bar ---------------------------------------------------------- */
-#topbar {
-  top: 0; left: 0; right: 0; display: flex; align-items: flex-start;
-  justify-content: space-between; padding: 14px 18px 0;
-}
-#masthead h1 {
-  font-family: var(--serif); font-weight: 400; letter-spacing: 0.42em;
-  font-size: 15px; color: var(--ink); text-transform: uppercase;
-}
-#masthead .sub {
-  font-family: var(--serif); font-style: italic; font-size: 12px;
-  letter-spacing: 0.04em; color: var(--dim); margin-top: 3px;
-}
-#foldLink {
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
-  color: var(--dim); background: var(--panel); border: 1px solid var(--hair);
-  padding: 7px 16px; border-radius: 2px; text-decoration: none;
-}
-#foldLink:hover { color: var(--gold); border-color: rgba(226, 180, 90, 0.45); }
-button.ghost {
-  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.1em;
-  background: var(--panel); color: var(--ink); border: 1px solid var(--hair);
-  padding: 7px 16px; cursor: pointer; border-radius: 2px;
-}
-button.ghost:hover { border-color: rgba(198, 214, 240, 0.4); }
-button.ghost.on { color: var(--gold); border-color: rgba(226, 180, 90, 0.45); }
+  /* ---------- password veil ---------- */
+  .veil{position:fixed; inset:0; z-index:40; display:grid; place-items:center;
+    background:linear-gradient(180deg, var(--bg0), var(--bg1)); transition:opacity 1.1s var(--ease)}
+  .gate{width:min(88vw,400px); text-align:center; padding:2.6rem 2.1rem;
+    border:1px solid var(--border); border-radius:16px; background:var(--panel)}
+  .mark{font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:1.5rem}
+  .gate h1{font-weight:600; font-size:1.5rem; letter-spacing:-.01em; margin-bottom:.5rem; color:var(--ink)}
+  .gate p{color:var(--dim); font-size:.95rem; line-height:1.65; margin-bottom:1.6rem}
+  .gate input{width:100%; text-align:center; letter-spacing:.3em; text-transform:lowercase;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; color:var(--ink);
+    font-family:inherit; font-size:1rem; padding:.75rem 0; outline:none; transition:border-color .2s}
+  .gate input:focus{border-color:rgb(var(--gold))}
+  .hint{margin-top:1.1rem; font-size:.82rem; color:var(--faint)}
+  .err{color:var(--warn); min-height:1rem; font-size:.85rem; margin-top:.7rem}
 
-#presets { display: flex; gap: 6px; }
-.chip {
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em;
-  color: var(--dim); background: rgba(16,22,38,0.6);
-  border: 1px solid rgba(148,163,184,0.14); border-radius: 999px;
-  padding: 4px 12px; cursor: pointer;
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-.chip:hover { color: var(--ink); border-color: rgba(148,163,184,0.35); }
-.chip.on { color: var(--gold); border-color: rgba(226,180,90,0.45); }
+  /* ---------- text box (video-game style, click-to-advance) ---------- */
+  #ui{position:fixed; inset:0; z-index:10; pointer-events:none;
+    display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
+    padding:0 6vw 9vh}
+  #box{max-width:640px; width:100%; opacity:0; transform:translateY(14px);
+    transition:opacity .6s var(--ease), transform .6s var(--ease)}
+  #box.on{opacity:1; transform:translateY(0)}
+  .k{font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:.7rem}
+  #box h2{font-weight:600; font-size:clamp(1.3rem,3.6vw,1.8rem); line-height:1.32; letter-spacing:-.01em; margin-bottom:.85rem; color:var(--ink)}
+  #box p{color:var(--dim); font-size:clamp(.98rem,2vw,1.05rem); line-height:1.72}
+  #box .fence{display:block; margin-top:.6rem; color:var(--faint); font-size:.88rem; font-style:italic}
+  .links{margin-top:1.5rem; display:flex; gap:.6rem; flex-wrap:wrap; pointer-events:auto}
+  .links a{display:inline-block; text-decoration:none; font-size:.85rem; letter-spacing:.03em;
+    padding:.8rem 1.4rem; border-radius:10px; transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
+  .links a.pri{background:rgb(var(--gold)); color:#171308; font-weight:600}
+  .links a.sec{background:transparent; border:1px solid var(--border); color:var(--ink)}
+  .links a:hover{transform:translateY(-2px)}
+  .links a.pri:hover{box-shadow:0 10px 26px -10px rgba(var(--gold),.55)}
 
-/* ---- generic panel ----------------------------------------------------- */
-.panel {
-  position: fixed; z-index: 6; background: rgba(16,22,38,0.72);
-  border: 1px solid rgba(148,163,184,0.14); border-radius: 16px; padding: 14px 16px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-.panel h2 {
-  font-family: var(--mono); font-size: 12px; font-weight: 400;
-  letter-spacing: 0.18em; color: var(--dim); text-transform: uppercase;
-  margin-bottom: 8px; display: flex; justify-content: space-between; gap: 12px;
-}
-.panel h2 .x { cursor: pointer; color: var(--faint); }
-.panel h2 .x:hover { color: var(--ink); }
-.hidden { display: none !important; }
-.mono { font-family: var(--mono); }
-.dim { color: var(--dim); }
-.caveat {
-  font-family: var(--mono); font-size: 12px; color: var(--dim);
-  line-height: 1.6; letter-spacing: 0.02em; margin-top: 8px; max-width: 340px;
-}
-.kv { font-family: var(--mono); font-size: 12.5px; line-height: 1.75; }
-.kv .k { color: var(--dim); }
-.kv .v { color: var(--ink); }
-.kv .g { color: var(--gold); }
+  #advance{position:fixed; bottom:3.2vh; left:0; right:0; z-index:10; text-align:center;
+    font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint);
+    pointer-events:none; opacity:0; transition:opacity .5s ease}
+  #advance.on{opacity:1; animation:pulse 2.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
 
-/* ---- the map: always-visible bottom strip (was the Z ribbon panel) ------- */
-#ribbonPanel {
-  position: fixed; z-index: 6; left: 18px; width: min(72%, calc(100vw - 284px));
-  bottom: 6px; height: 90px;
-  display: flex; align-items: stretch; gap: 10px; padding: 5px 8px 5px 12px;
-  background: rgba(16,22,38,0.72); border: 1px solid rgba(148,163,184,0.14);
-  border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-#ribbon { flex: 1; min-width: 0; height: 100%; display: block; cursor: crosshair; touch-action: none; }
-#ribbon.scrubbing { cursor: ew-resize; }
-#mapChips { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-#ribbonSide { display: flex; flex-direction: column; justify-content: center; gap: 5px; align-items: flex-end; }
-#ribbonSide .presetRow { display: flex; gap: 5px; }
-.layerToggle {
-  cursor: pointer; user-select: none; display: inline-flex; align-items: center;
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--dim);
-  border: 1px solid rgba(148,163,184,0.14); border-radius: 999px; padding: 3px 10px;
-}
-.layerToggle:hover { color: var(--ink); }
-.layerToggle .swatch { display: inline-block; width: 10px; height: 2px; margin-right: 5px; }
-.layerToggle.off { opacity: 0.32; }
+  /* subtle text-only controls — never buttons */
+  #skip,#back{position:fixed; top:2.4vh; z-index:11; font-size:.8rem; letter-spacing:.06em;
+    color:var(--faint); cursor:pointer; opacity:0; transition:opacity .5s ease, color .2s;
+    pointer-events:none; background:none; border:none; padding:.3rem .1rem}
+  #skip{right:2.4vh}
+  #back{left:2.4vh}
+  #skip.on,#back.on{opacity:.75; pointer-events:auto}
+  #skip:hover,#back:hover{color:var(--ink); opacity:1}
 
-/* ---- flower ------------------------------------------------------------ */
-/* edge-anchored windows never reach the central 40% of the viewport:
-   left windows are capped at 30vw - 24px, right windows likewise */
-#flowerPanel { left: 18px; top: 64px; width: min(384px, calc(30vw - 24px)); max-height: calc(100vh - 300px); overflow-y: auto; }
-#flower { width: 100%; aspect-ratio: 1; display: block; cursor: pointer; }
+  #progress{position:fixed; top:0; left:0; height:2px; background:rgb(var(--gold));
+    z-index:12; transition:width .5s var(--ease); width:0%}
 
-/* ---- inspector --------------------------------------------------------- */
-#inspectorPanel { left: 18px; top: 64px; width: min(300px, calc(30vw - 24px)); }
 
-/* ---- microscope -------------------------------------------------------- */
-#microPanel { left: 18px; top: 64px; width: min(430px, calc(30vw - 24px)); max-height: calc(100vh - 300px); overflow-y: auto; }
-#microHead { font-family: var(--mono); font-size: 12px; color: var(--dim);
-  letter-spacing: 0.03em; margin: -2px 0 8px; }
-#microZeroSel { width: 100%; background: #101827; color: var(--ink);
-  border: 1px solid var(--hair); font-family: var(--mono); font-size: 12.5px;
-  padding: 4px; margin-bottom: 8px; }
-#microCurve { width: 100%; height: 130px; display: block; }
-#microBars { width: 100%; height: 150px; display: block; margin-top: 8px; }
-
-/* ---- fence ------------------------------------------------------------- */
-#fencePanel {
-  inset: 0; z-index: 20; overflow-y: auto; border: none; border-radius: 0;
-  background: rgba(10, 15, 28, 0.97); padding: 48px 0;
-}
-#fenceInner { max-width: 780px; margin: 0 auto; padding: 0 24px; }
-#fenceInner h2 { font-family: var(--serif); font-size: 16px; letter-spacing: 0.28em;
-  color: var(--ink); text-transform: uppercase; margin: 26px 0 10px; display: block; }
-#fenceInner p, #fenceInner li {
-  font-size: 14px; line-height: 1.75; color: var(--ink); margin-bottom: 8px;
-}
-#fenceInner .frm { font-family: var(--mono); font-size: 13px; color: var(--gold);
-  background: rgba(226, 180, 90, 0.05); border-left: 2px solid rgba(226, 180, 90, 0.3);
-  padding: 8px 12px; margin: 8px 0; white-space: pre-wrap; line-height: 1.7; }
-#fenceInner .lawline { font-family: var(--mono); font-size: 12px; color: var(--dim);
-  letter-spacing: 0.05em; line-height: 1.8; }
-#fenceInner table { border-collapse: collapse; font-family: var(--mono);
-  font-size: 12px; margin: 8px 0; }
-#fenceInner td, #fenceInner th { border: 1px solid var(--hair); padding: 4px 10px;
-  color: var(--ink); font-weight: 400; text-align: left; }
-#fenceInner th { color: var(--dim); }
-/* the 12px floor holds inside math notation too: no shrunken sub/superscripts */
-#fenceInner sub, #fenceInner sup { font-size: 12px; line-height: 0; position: relative; vertical-align: baseline; }
-#fenceInner sub { top: 0.3em; }
-#fenceInner sup { top: -0.45em; }
-
-/* ---- left column: the crossing event label -------------------------------
-   The only transient text on the main screen. LEFT edge, left-justified,
-   just above the chart strip. Nothing is centered over the tunnel. */
-#leftCol {
-  position: fixed; left: 18px; bottom: 112px; z-index: 7; pointer-events: none;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
-  max-width: min(430px, calc(30vw - 24px)); text-align: left;
-}
-
-/* ---- the indicators: torus + flower inset, top-right glass column -------- */
-#indicators {
-  position: fixed; right: 12px; top: 50px; z-index: 6; width: 208px;
-  display: flex; flex-direction: column; gap: 5px; padding: 10px 12px;
-  background: rgba(16,22,38,0.72); border: 1px solid rgba(148,163,184,0.14);
-  border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-#torusViews { display: flex; gap: 4px; }
-.tor-view {
-  flex: 1; font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em;
-  color: var(--dim); background: rgba(16,22,38,0.6);
-  border: 1px solid rgba(148,163,184,0.14); border-radius: 999px;
-  padding: 3px 0; cursor: pointer; text-align: center;
-}
-.tor-view:hover { color: var(--ink); border-color: rgba(148,163,184,0.35); }
-.tor-view.on { color: var(--gold); border-color: rgba(226,180,90,0.45); }
-#torusCv, #sliceCv { aspect-ratio: 1; display: block; margin: 0 auto;
-  background: rgba(7,10,18,0.55); border: 1px solid rgba(148,163,184,0.12); }
-#torusCv { width: 148px; border-radius: 10px; }
-#sliceCv { width: 88px; border-radius: 50%; }
-#torusLbl { text-align: center; font-family: var(--mono); font-size: 12px;
-  letter-spacing: 0; color: var(--dim); line-height: 1.35; }
-
-/* ---- the control cluster: the only controls, one compact group ------------
-   bottom-right, just above the chart strip: PLAY · SPEED · ZOOM · SOUND ·
-   VOLUME. Nothing else on the screen is a playback control. */
-#cluster {
-  position: fixed; right: 18px; bottom: 10px; z-index: 6; width: 240px;
-  display: flex; flex-direction: column; gap: 3px; padding: 9px 14px;
-  background: rgba(16,22,38,0.72); border: 1px solid rgba(148,163,184,0.14);
-  border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-.cl-row { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 8px; }
-.cl-lbl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--dim); }
-.cl-note { font-size: 12px; line-height: 1.25; color: var(--dim); }
-#playBtn { width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-  border: 1px solid rgba(198,214,240,0.3); background: rgba(7,10,18,0.6);
-  display: inline-flex; align-items: center; justify-content: center; padding: 0; }
-#playBtn:hover { border-color: rgba(198,214,240,0.55); }
-#playBtn .ic-pause { display: block; width: 9px; height: 12px;
-  border-left: 3px solid var(--ink); border-right: 3px solid var(--ink); }
-#playBtn .ic-play { display: block; width: 0; height: 0; margin-left: 3px;
-  border-top: 6px solid transparent; border-bottom: 6px solid transparent;
-  border-left: 10px solid var(--ink); }
-#soundToggle, #quantToggle { width: 100%; font-family: var(--mono); font-size: 12.5px;
-  letter-spacing: 0.14em; padding: 4px 0; color: var(--dim); background: rgba(7,10,18,0.6);
-  cursor: pointer; border: 1px solid rgba(148,163,184,0.25); border-radius: 999px; }
-#soundToggle:hover, #quantToggle:hover { color: var(--ink); }
-#soundToggle.on, #quantToggle.on { color: #8fd0a8; border-color: rgba(143,208,168,0.5); }
-.cl-chips { display: flex; gap: 8px; }
-.cl-chip { flex: 1; font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
-  padding: 10px 0; color: var(--dim); background: rgba(7,10,18,0.6); cursor: pointer;
-  border: 1px solid rgba(148,163,184,0.25); border-radius: 999px; }
-.cl-chip:hover { color: var(--ink); border-color: rgba(198,214,240,0.5); }
-.cl-chip.on { color: var(--mint); border-color: rgba(125,211,168,0.5); }
-#cluster input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%;
-  height: 2px; background: var(--faint); outline: none; display: block; }
-#cluster input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
-  width: 11px; height: 11px; border-radius: 50%; background: var(--ink); cursor: pointer; }
-#cluster input[type="range"]::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%;
-  background: var(--ink); border: none; cursor: pointer; }
-#soundViz { width: 100%; height: 16px; display: block; }
-#soundErr { display: none; font-family: var(--mono); font-size: 12px;
-  color: #d98a8a; line-height: 1.5; text-align: left; }
-#soundErr.on { display: block; }
-
-/* a left-anchored window takes precedence over the left column */
-body.leftwin #leftCol { opacity: 0 !important; pointer-events: none !important; }
-
-/* ---- fence close chip (top-right of the fence overlay) -------------------- */
-#fenceClose {
-  position: fixed; top: 16px; right: 20px; z-index: 21;
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
-  color: var(--dim); background: rgba(16,22,38,0.72);
-  border: 1px solid rgba(148,163,184,0.14); border-radius: 999px;
-  padding: 5px 14px; cursor: pointer;
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-#fenceClose:hover { color: var(--ink); border-color: rgba(148,163,184,0.4); }
-
-/* ---- the crossing event label: left column, mono 13px, left-justified ---- */
-#eventLabel {
-  font-family: var(--mono);
-  font-size: 13px; letter-spacing: 0.12em; color: var(--gold);
-  text-align: left; opacity: 0; transition: opacity 0.5s; line-height: 1.8;
-  text-shadow: 0 0 18px rgba(4, 6, 11, 0.9); pointer-events: none;
-  max-width: 100%;
-}
-#eventLabel .sub2 { font-size: 12px; color: var(--dim); letter-spacing: 0.08em; }
-
-/* ---- intro A: the dramatic flight -----------------------------------------
-   Purely visual: the tunnel flying on its own. Every text-bearing HUD
-   element is faded out for the whole flight; nothing is overlaid. */
-.hud { transition: opacity 1.6s ease; }
-body.introA .hud { opacity: 0 !important; pointer-events: none !important; }
-@media (prefers-reduced-motion: reduce) { .hud { transition: none; } }
-
-/* ---- intro B: the controls tour -------------------------------------------
-   Max three beats, LEFT-anchored, serif 19px, on a generous radial scrim,
-   each pointing at the actual controls via the SVG connectors. */
-#tourBeat {
-  position: fixed; left: 18px; top: 36%; z-index: 8; max-width: 300px;
-  font-family: var(--serif); font-size: 19px; line-height: 1.55; color: #efe6d2;
-  text-align: left; padding: 40px 52px; opacity: 0; transition: opacity 0.8s ease;
-  background: radial-gradient(ellipse at center, rgba(3, 5, 10, 0.92) 0%,
-    rgba(3, 5, 10, 0.66) 52%, rgba(3, 5, 10, 0) 76%);
-  border-radius: 50%; pointer-events: none;
-}
-#tourBeat.on { opacity: 1; }
-#tourBeat:empty { display: none; }
-@media (prefers-reduced-motion: reduce) { #tourBeat { transition: none; } }
-#tourSVG { position: fixed; inset: 0; width: 100%; height: 100%;
-  z-index: 7; pointer-events: none; }
-#tourSVG .bp { fill: none; stroke: rgba(226, 180, 90, 0.5); stroke-width: 1;
-  stroke-dasharray: 3 4; }
-#tourSVG .bpdot { fill: var(--gold); opacity: 0.85; }
-
-#vignette { position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 52%, rgba(2, 3, 6, 0.55) 100%); }
-#fade { position: fixed; inset: 0; z-index: 29; background: #0a0f1c; pointer-events: none;
-  transition: opacity 2.2s; }
-
-#glLost{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:32ch;
-padding:14px 16px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
-background:rgba(0,0,0,.72);color:#cfd6e4;font:15px/1.5 ui-monospace,monospace;text-align:center;z-index:40}
-
-/* ---- royal invite overlay (harp HUD stays hidden; tunnel is the show) ---- */
-body.invite .hud { opacity: 0 !important; pointer-events: none !important; }
-#veil{position:fixed;inset:0;z-index:40;display:grid;place-items:center;
-  background:radial-gradient(ellipse at 50% 28%, #12192a 0%, #0a0f1c 72%);
-  transition:opacity 1.3s ease}
-#veil .gate{width:min(90vw,420px);text-align:center;padding:2.6rem 2.1rem;
-  border:1px solid rgba(198,214,240,.13);border-radius:2px;background:rgba(7,10,18,.82)}
-#veil .mark{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.3rem}
-#veil h1{font-family:var(--serif);font-weight:400;font-size:1.55rem;letter-spacing:.02em;margin-bottom:.5rem;color:var(--ink)}
-#veil p{color:var(--dim);font-size:.95rem;line-height:1.65;margin-bottom:1.5rem;font-family:var(--serif)}
-#veil input{width:100%;text-align:center;letter-spacing:.32em;text-transform:lowercase;
-  background:rgba(7,10,18,.7);border:1px solid var(--hair);border-radius:2px;color:var(--ink);
-  font-family:var(--mono);font-size:1rem;padding:.75rem 0;outline:none}
-#veil input:focus{border-color:rgba(226,180,90,.5)}
-#veil .err{color:#d98a8a;min-height:1rem;font-size:.82rem;margin-top:.65rem;font-family:var(--mono)}
-#veil .hint{margin-top:.95rem;font-size:.78rem;color:var(--faint);font-family:var(--mono);letter-spacing:.06em}
-#inv{position:fixed;left:0;right:0;bottom:0;z-index:12;pointer-events:none;
-  display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
-  padding:0 6vw 8vh;transition:justify-content .9s ease,padding .9s ease}
-#inv.center{justify-content:center;padding-bottom:0}
-#ibox{max-width:620px;width:100%;opacity:0;transform:translateY(12px);
-  transition:opacity .7s ease,transform .7s ease;pointer-events:none}
-#ibox.on{opacity:1;transform:none}
-#ibox .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
-#ibox h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.2vw,1.75rem);line-height:1.3;margin-bottom:.7rem;color:#efe6d2}
-#ibox p{font-family:var(--serif);color:var(--ink);font-size:clamp(.95rem,2vw,1.05rem);line-height:1.7;opacity:.88}
-#ibox .fence{display:block;margin-top:.6rem;font-family:var(--mono);font-size:.78rem;color:var(--dim);font-style:normal;letter-spacing:.02em}
-#talk{display:none;margin-top:1.1rem;pointer-events:auto}
-#talk.on{display:block}
-#talk form{display:flex;gap:.5rem}
-#say{flex:1;min-height:46px;border:1px solid var(--hair);border-radius:2px;
-  background:rgba(7,10,18,.75);color:var(--ink);font-family:var(--serif);font-size:1.05rem;padding:.75rem 1rem;outline:none}
-#say:focus{border-color:rgba(226,180,90,.45)}
-#go{min-width:46px;min-height:46px;border:1px solid rgba(226,180,90,.45);background:transparent;
-  color:var(--gold);font-family:var(--mono);font-size:12px;letter-spacing:.12em;cursor:pointer;padding:0 1rem}
-#reply{margin-top:.65rem;font-family:var(--serif);color:#efe6d2;opacity:0;transition:opacity .5s}
-#reply.on{opacity:1}
-.ilinks{margin-top:1.3rem;display:flex;gap:.5rem;flex-wrap:wrap;pointer-events:auto}
-.ilinks a{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-decoration:none;
-  padding:.75rem 1.2rem;border:1px solid var(--hair);color:var(--ink)}
-.ilinks a.pri{border-color:rgba(226,180,90,.5);color:var(--gold)}
-#iadv{position:fixed;bottom:2.4vh;left:0;right:0;z-index:12;text-align:center;
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
-  pointer-events:none;opacity:0;transition:opacity .4s}
-#iadv.on{opacity:1}
-#iskip,#iback{position:fixed;top:16px;z-index:12;font-family:var(--mono);font-size:12px;
-  letter-spacing:.08em;color:var(--dim);background:none;border:0;cursor:pointer;opacity:0;pointer-events:none}
-#iskip{right:18px} #iback{left:18px}
-#iskip.on,#iback.on{opacity:.8;pointer-events:auto}
-#iprog{position:fixed;top:0;left:0;height:1px;background:var(--gold);z-index:13;width:0;transition:width .5s}
-#lanes{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1.2s}
-#lanes.on{opacity:1}
-.lane{position:absolute;top:10vh;bottom:20vh;border:1px solid rgba(148,163,184,.14);border-radius:16px;background:rgba(16,22,38,.28)}
-.lane.l{left:3vw;width:17vw} .lane.c{left:22vw;right:22vw} .lane.r{right:3vw;width:17vw}
-.lane i{display:block;margin:1rem;font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-@media (max-width:720px){ .lane.l,.lane.r{display:none} .lane.c{left:4vw;right:4vw} }
-
+  canvas#gl{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;background:#0a0f1c}
+  canvas#stage{background:transparent;z-index:1}
+  body.harp-live canvas#stage{opacity:0}
+  #harpChrome{position:fixed;inset:0;z-index:2;opacity:0;pointer-events:none;visibility:hidden}
+  #fade{position:fixed;inset:0;z-index:15;background:#0a0f1c;pointer-events:none;opacity:0;transition:opacity 2.2s}
+  @media (prefers-reduced-motion:reduce){ #advance{animation:none} }
 </style>
 </head>
-<body class="invite">
-<div id="veil">
-  <div class="gate">
-    <div class="mark">Aukora · The Golden Boundary</div>
-    <h1>An Invitation</h1>
-    <p>The instrument first. Then the door.<br>Speak the word to open it.</p>
-    <input id="pass" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="passphrase" placeholder="· · · · · · · · ·">
-    <div class="err" id="err"></div>
-    <div class="hint">a four-dimensional viewing frame · nine letters</div>
-  </div>
-</div>
-<div id="iprog"></div>
-<div id="lanes" aria-hidden="true">
-  <div class="lane l"><i>threads</i></div>
-  <div class="lane c"><i>the room</i></div>
-  <div class="lane r"><i>apps</i></div>
-</div>
-<div id="inv">
-  <div id="ibox">
-    <div class="k" id="bk"></div>
-    <h2 id="bh"></h2>
-    <p id="bp"></p>
-    <div id="talk">
-      <form id="talkform"><input id="say" maxlength="240" autocomplete="off" placeholder="speak to the room"><button id="go" type="submit">SEND</button></form>
-      <div id="reply"></div>
-    </div>
-    <div class="ilinks" id="blinks"></div>
-  </div>
-</div>
-<div id="iadv">click to continue</div>
-<button id="iback" type="button">← back</button>
-<button id="iskip" type="button">skip ↦</button>
+<body>
 
 <canvas id="gl"></canvas>
+<div id="fade"></div>
+<div id="harpChrome" aria-hidden="true">
+
 <div id="vignette"></div>
 
 <div id="topbar" class="hud">
@@ -583,9 +294,31 @@ all it does. If it is beautiful, the beauty belongs to the mathematics, not to a
 </div>
 </div>
 
-<div id="fade"></div>
+
 <svg id="tourSVG" class="hud" aria-hidden="true"></svg>
 <div id="tourBeat" class="hud" aria-live="polite"></div>
+
+
+</div>
+
+<div class="veil" id="veil">
+  <div class="gate">
+    <div class="mark">Aukora · The Golden Boundary</div>
+    <h1>An Invitation</h1>
+    <p>Prepared for the Royal University of Bhutan.<br>Speak the word to open the door.</p>
+    <input id="pass" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="passphrase" placeholder="· · · · · · · · ·">
+    <div class="err" id="err"></div>
+    <div class="hint">a four‑dimensional viewing frame · a nine‑letter room</div>
+  </div>
+</div>
+
+<div id="progress"></div>
+<canvas id="stage"></canvas>
+<div id="ui"><div id="box"><div class="k" id="bk"></div><h2 id="bh"></h2><p id="bp"></p><div class="links" id="blinks"></div></div></div>
+<div id="advance">click to continue</div>
+<div id="back">← back</div>
+<div id="skip">skip ↦</div>
+
 
 <script src="js/zh-fixtures-1.js"></script>
 <script src="js/zh-fixtures-2.js"></script>
@@ -597,5 +330,522 @@ all it does. If it is beautiful, the beauty belongs to the mathematics, not to a
 <script src="js/zh-app-5-orchestration.js"></script>
 <script src="js/zh-app-6-main.js"></script>
 <script src="js/invite.js"></script>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================= gate ============================= */
+var veil=document.getElementById('veil'), inp=document.getElementById('pass'), err=document.getElementById('err');
+function openGate(){
+  veil.style.opacity='0';
+  setTimeout(function(){ veil.style.display='none'; if(window.HARP) HARP.release(); boot(); }, 1100);
+}
+function tryOpen(){
+  if(inp.value.trim().toLowerCase()==='tesseract'){ err.textContent=''; openGate(); }
+  else { err.textContent='not yet — the nine‑letter room'; inp.value=''; }
+}
+inp.addEventListener('keydown', function(e){ if(e.key==='Enter') tryOpen(); });
+inp.addEventListener('input', function(){ if(inp.value.length>=9) tryOpen(); });
+setTimeout(function(){ inp.focus(); }, 400);
+
+/* ============================= boot ============================= */
+function boot(){
+
+var cv=document.getElementById('stage'), g=cv.getContext('2d'), W,H,DPR,CX=0,CY=0,R=0;
+var boxEl=document.getElementById('box');
+
+function size(){
+  DPR=Math.min(2,window.devicePixelRatio||1);
+  W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR;
+  cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+  layout();
+}
+// BUG FIXED (previous pass): the artwork's centre/radius were fixed fractions of the viewport,
+// tuned on a tall phone. On a short, wide desktop window the text box occupies a much larger
+// share of the height, so a fixed CY collided with the heading text. layout() now measures the
+// text box's ACTUAL top edge every frame and keeps the artwork entirely above it, at any aspect.
+function layout(){
+  var r = boxEl.getBoundingClientRect();
+  var boxTop = r.height ? r.top : innerHeight*0.62;
+  var topMargin = Math.max(56, innerHeight*0.07);
+  var avail = Math.max(140, boxTop - 26 - topMargin);
+  CX = W/2;
+  CY = (topMargin + avail*0.52) * DPR;
+  R  = Math.max(Math.min(W,H)*0.13, Math.min(W, avail*DPR)*0.30);
+}
+size(); addEventListener('resize', size);
+
+var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+var HUE={l:'129,212,180', c:'150,180,255', r:'196,170,255', gold:'224,181,102', warn:'224,130,108', ink:'244,246,255'};
+
+/* ---------- 4-cube geometry (verified: 3^3=27, 3^4=81, the 27/27/27 split) ---------- */
+var V=[]; for(var i=0;i<16;i++) V.push([(i&1?1:-1),(i&2?1:-1),(i&4?1:-1),(i&8?1:-1)]);
+var E=[]; for(i=0;i<16;i++) for(var j=i+1;j<16;j++){ var d=i^j; if((d&(d-1))===0) E.push([i,j]); }
+function rot(p,a,b,t){ var c=Math.cos(t),s=Math.sin(t); var q=p.slice();
+  q[a]=p[a]*c-p[b]*s; q[b]=p[a]*s+p[b]*c; return q; }
+function project(p, wArg){
+  var w=1/(2.7-p[3]*(wArg===undefined?0.9:wArg));
+  var x=p[0]*w, y=p[1]*w, z=p[2]*w;
+  var d=1/(2.5-z*0.8); return [x*d, y*d, (z+2)*0.5];
+}
+function tess(tt, spin){
+  return V.map(function(v){
+    var q=rot(v,0,1,tt*(spin?1.3:1)); q=rot(q,2,3,tt*0.9*(spin?1:0.8));
+    q=rot(q,0,3,tt*0.5+ (spin===2?0.5:0)); q=rot(q,1,2,tt*0.32);
+    return project(q, 0.85);
+  });
+}
+
+/* ---------- small shared canvas primitives, used by the engineering-act scenes ---------- */
+function dot(x,y,r,hue,a){ g.beginPath(); g.arc(x,y,r,0,6.29); g.fillStyle='rgba('+hue+','+a+')'; g.fill(); }
+function seg(x1,y1,x2,y2,hue,a,w){ g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2);
+  g.strokeStyle='rgba('+hue+','+a+')'; g.lineWidth=w*DPR; g.stroke(); }
+function segP(x1,y1,x2,y2,hue,a,w,p){ seg(x1,y1, x1+(x2-x1)*p, y1+(y2-y1)*p, hue,a,w); }
+function label(txt,x,y,size,hue,a,align){
+  g.save(); g.font=(size*DPR)+'px ui-sans-serif, system-ui'; g.textAlign=align||'center';
+  g.fillStyle='rgba('+hue+','+a+')'; g.fillText(txt,x,y); g.restore();
+}
+
+/* ============================= text box / video-game reveal ============================= */
+var bk=document.getElementById('bk'), bh=document.getElementById('bh'),
+    bp=document.getElementById('bp'), blinks=document.getElementById('blinks'), advEl=document.getElementById('advance');
+var typing=false, typeTimer=null, fullText='', shownChars=0, onDoneCb=null;
+
+function showBox(kicker, head, body, fence, done){
+  boxEl.classList.remove('on'); bk.textContent=kicker; bh.textContent=head;
+  bp.innerHTML=''; blinks.innerHTML='';
+  requestAnimationFrame(function(){ boxEl.classList.add('on'); });
+  fullText=body; shownChars=0; typing=true; advEl.classList.remove('on'); onDoneCb=done;
+  clearInterval(typeTimer);
+  var speed = reduce ? 0 : 12;
+  function render(){
+    bp.textContent = fullText.slice(0,shownChars);
+    if(fence && shownChars>=fullText.length){
+      var f=document.createElement('span'); f.className='fence'; f.textContent=fence;
+      bp.appendChild(f);
+    }
+  }
+  if(speed===0){ shownChars=fullText.length; render(); finishType(); return; }
+  typeTimer=setInterval(function(){
+    shownChars+=3; if(shownChars>fullText.length) shownChars=fullText.length;
+    render();
+    if(shownChars>=fullText.length){ clearInterval(typeTimer); finishType(); }
+  }, speed);
+}
+function finishType(){ typing=false; advEl.classList.add('on'); if(onDoneCb) onDoneCb(); }
+function completeTypeNow(){ clearInterval(typeTimer); shownChars=fullText.length; bp.textContent=fullText; finishType(); }
+
+/* ============================= scenes ============================= */
+var scene=0, formT=0;
+var SCENES;
+
+function enterScene(n){
+  scene=n; formT=performance.now();
+  SCENES[n].enter();
+}
+function advance(){
+  if(typing){ completeTypeNow(); return; }
+  if(scene < SCENES.length-1) enterScene(scene+1);
+}
+function goBack(){
+  if(scene>0) enterScene(scene-1);
+}
+
+/* =====================================================================
+   ACT I — THE ZETA OPENING (image only; not the mathematics; said so)
+   ===================================================================== */
+
+/* Scene 0: the critical line — an original, non-interactive animation in the spirit of the
+   Riemann zeta function's critical line. Not the Zeta Harp instrument (see link in the closing
+   scene), not a claim about the Riemann Hypothesis, not evidence for anything later in this page. */
+function drawZetaA(dt){
+  g.clearRect(0,0,W,H);
+  requestAnimationFrame(loop);
+}
+function drawZetaB(dt){
+  g.clearRect(0,0,W,H);
+  requestAnimationFrame(loop);
+}
+
+/* Scene 1: the crossing — a zero on the line. Visual is the live harp. */
+var zetaLanded=false;
+
+/* =====================================================================
+   ACT II — THE BOUNDARY (tesseract / 27 / meeting / price)
+   ===================================================================== */
+function drawForm(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/2600), tt=dt*0.00035;
+  var pts=tess(tt,1);
+  for(var k=0;k<E.length;k++){
+    var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
+    var reveal = Math.min(1, Math.max(0, p*E.length*1.15 - k)/1);
+    if(reveal<=0) continue;
+    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R);
+    g.lineTo(CX + (a[0]+(b[0]-a[0])*reveal)*R, CY + (a[1]+(b[1]-a[1])*reveal)*R);
+    g.strokeStyle='rgba('+HUE.c+','+(0.12+depth*0.34)+')'; g.lineWidth=(0.6+depth*1.6)*DPR; g.stroke();
+  }
+  for(k=0;k<pts.length;k++){
+    if(p*17 < k) continue;
+    var v=pts[k];
+    dot(CX+v[0]*R, CY+v[1]*R, (1.1+v[2]*2.6)*DPR, HUE.ink, 0.30+v[2]*0.5);
+  }
+  requestAnimationFrame(loop);
+}
+
+var faceCounter=0, faceTarget=27;
+function drawFaces(dt){
+  g.clearRect(0,0,W,H);
+  var pts=tess(dt*0.00028,0);
+  for(var k=0;k<E.length;k++){
+    var a=pts[E[k][0]], b=pts[E[k][1]];
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.ink, 0.05, 0.6);
+  }
+  var facetIdx=[]; for(k=0;k<16;k++) if(V[k][3]===-1) facetIdx.push(k);
+  for(k=0;k<E.length;k++){
+    var i0=E[k][0], i1=E[k][1];
+    if(facetIdx.indexOf(i0)<0 || facetIdx.indexOf(i1)<0) continue;
+    a=pts[i0]; b=pts[i1]; var depth=(a[2]+b[2])*0.5;
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.22+depth*0.4, 0.9+depth*1.6);
+  }
+  for(k=0;k<facetIdx.length;k++){
+    var v=pts[facetIdx[k]];
+    dot(CX+v[0]*R, CY+v[1]*R, (1.6+v[2]*3)*DPR, HUE.gold, 0.4+v[2]*0.5);
+  }
+  faceCounter = Math.max(0, Math.min(faceTarget, Math.floor((dt-300)/70)));
+  var ty = Math.max(24*DPR, CY - R*1.28);
+  label(String(faceCounter), CX, ty, 28, HUE.gold, 0.85);
+  label('8 · 12 · 6 · 1', CX, ty+22*DPR, 11, HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+function drawMeeting(dt){
+  g.clearRect(0,0,W,H);
+  var tt=dt*0.0003, approach=Math.min(1, dt/2600), offset=(1-approach)*R*1.2;
+  function build(sign){
+    return V.map(function(v0){
+      var q=rot(v0.slice(),0,1,tt); q=rot(q,2,3,tt*0.7); q=rot(q,1,2,tt*0.25);
+      var pr=project(q, 0.85); pr[0]+= sign*offset/R * 0.55; return pr;
+    });
+  }
+  var left=build(-1), right=build(1);
+  function drawSide(pts, hue, mirror){
+    for(var k=0;k<E.length;k++){
+      var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
+      var onFacet = V[E[k][0]][3]===(mirror?1:-1) && V[E[k][1]][3]===(mirror?1:-1);
+      if(onFacet) seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.28+depth*0.4, 1+depth*1.8);
+      else seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, hue, 0.10+depth*0.24, 0.6+depth*1.2);
+    }
+  }
+  drawSide(left, HUE.c, false); drawSide(right, HUE.r, true);
+  var pulse=0.5+0.5*Math.sin(dt*0.0022);
+  dot(CX,CY,(2+pulse*1.6)*DPR, HUE.gold, 0.5+pulse*0.3);
+  if(approach>0.94) label('−1 ↔ +1   ·   0 held fixed', CX, CY-R*1.15, 11, HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+function drawPrice(dt){
+  g.clearRect(0,0,W,H);
+  var grow=Math.min(1, dt/2200), rr=R*0.62*grow, sep=R*0.72*(1-grow*0.42);
+  var lx=CX-sep, rx=CX+sep;
+  [[lx,HUE.c],[rx,HUE.r]].forEach(function(o){
+    g.beginPath(); g.arc(o[0],CY,rr,0,6.29);
+    g.strokeStyle='rgba('+o[1]+',0.30)'; g.lineWidth=1.4*DPR; g.stroke();
+  });
+  g.save(); g.beginPath(); g.arc(lx,CY,rr,0,6.29); g.clip();
+  g.beginPath(); g.arc(rx,CY,rr,0,6.29);
+  g.fillStyle='rgba('+HUE.gold+','+(0.10+grow*0.14)+')'; g.fill(); g.restore();
+  if(grow>0.7) label('H(B) ≥ I(X;Y)', CX, CY-R*1.15, 20, HUE.gold, 0.82);
+  requestAnimationFrame(loop);
+}
+
+/* =====================================================================
+   ACT III — THE ENGINEERING (Merkle consistency, receipts, witnesses…)
+   ===================================================================== */
+
+/* the diary: leaves converging into one root */
+function drawDiary(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1800);
+  var leaves=8, y0=CY+R*0.7, y1=CY-R*0.75, spread=R*1.1;
+  var lx=[]; for(var k=0;k<leaves;k++) lx.push(CX-spread+ (2*spread)*(k/(leaves-1)));
+  var midY=(y0+y1)*0.55;
+  for(k=0;k<leaves;k++){
+    var pr=Math.min(1, Math.max(0, p*2.4 - k*0.06));
+    segP(lx[k],y0, (lx[k]+CX)/2, midY, HUE.c, 0.16*pr, 0.9, pr);
+    dot(lx[k],y0,(1.6)*DPR, HUE.c, 0.2+0.5*pr);
+  }
+  for(k=0;k<leaves;k+=2){
+    var pr2=Math.min(1, Math.max(0, p*2.4 - 1.4 - k*0.04));
+    segP((lx[k]+CX)/2,midY, CX,y1, HUE.gold, 0.22*pr2, 1.1, pr2);
+  }
+  var rootP=Math.min(1, Math.max(0, p*2.2-1.9));
+  if(rootP>0){
+    var pulse=0.5+0.5*Math.sin(dt*0.004);
+    dot(CX,y1,(2.4+rootP*2+pulse)*DPR, HUE.gold, 0.4+rootP*0.5);
+    if(rootP>0.8) label('one root', CX, y1-16*DPR, 11, HUE.gold, 0.5);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* prove it: same shape, two outcomes — a clean extension and an exact conflict */
+function drawProve(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1400);
+  var cx1=CX-R*0.85, cx2=CX+R*0.85, y0=CY+R*0.65, y1=CY-R*0.7;
+  function mini(cx, conflictAt){
+    var leaves=5;
+    for(var k=0;k<leaves;k++){
+      var lx=cx-R*0.55+ (R*1.1)*(k/(leaves-1));
+      var bad = conflictAt===k;
+      var hue = bad ? HUE.warn : HUE.c;
+      seg(lx,y0, cx,y1, hue, (bad?0.5:0.14)*p, bad?1.6:0.8);
+      dot(lx,y0,1.4*DPR, hue, (bad?0.9:0.3)*p);
+    }
+    dot(cx,y1,3*DPR, conflictAt<0?HUE.gold:HUE.warn, 0.6*p);
+  }
+  mini(cx1,-1); mini(cx2,2);
+  if(p>0.7){
+    label('APPEND_ONLY', cx1, y1-18*DPR, 12, HUE.gold, 0.7);
+    label('OBSERVATION_CONFLICT', cx2, y1-18*DPR, 12, HUE.warn, 0.7);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* the invariant: two parties, a fixed shared record between them */
+function drawInvariant(dt){
+  g.clearRect(0,0,W,H);
+  var tt=dt*0.0006, sep=R*0.9;
+  var ax=CX-sep+Math.sin(tt)*6*DPR, bx=CX+sep+Math.sin(tt+1.4)*6*DPR;
+  seg(ax,CY,bx,CY, HUE.ink, 0.10, 0.8);
+  dot(ax,CY,10*DPR, HUE.c, 0.16);
+  dot(bx,CY,10*DPR, HUE.r, 0.16);
+  var pulse=0.5+0.5*Math.sin(dt*0.0022);
+  dot(CX,CY,(2.4+pulse*1.4)*DPR, HUE.gold, 0.55+pulse*0.3);
+  if(dt>1400){ label('A', ax, CY+30*DPR, 12, HUE.c, 0.5); label('B', bx, CY+30*DPR, 12, HUE.r, 0.5); }
+  requestAnimationFrame(loop);
+}
+
+/* law & receipts: three nodes, sequential flow */
+function drawLaw(dt){
+  g.clearRect(0,0,W,H);
+  var y=CY, x1=CX-R*0.95, x2=CX, x3=CX+R*0.95;
+  var p1=Math.min(1,dt/900), p2=Math.min(1,Math.max(0,dt-500)/900), p3=Math.min(1,Math.max(0,dt-1000)/900);
+  dot(x1,y,7*DPR, HUE.c, 0.45);
+  segP(x1+10*DPR,y, x2-10*DPR,y, HUE.ink, 0.28*p1, 1, p1);
+  if(p1>0.9) dot(x2,y,7*DPR, HUE.gold, 0.5);
+  segP(x2+10*DPR,y, x3-10*DPR,y, HUE.ink, 0.28*p2, 1, p2);
+  if(p2>0.9) dot(x3,y,6*DPR, HUE.l, 0.5);
+  if(p3>0.5){
+    label('proposes', x1, y+30*DPR, 11, HUE.c, 0.5);
+    label('law', x2, y-22*DPR, 11, HUE.gold, 0.5);
+    label('receipt', x3, y+28*DPR, 11, HUE.l, 0.5);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* signatures & aumlok: a key bound to a record; an owner node drawn dashed — not yet bound */
+function drawKey(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1,dt/1400);
+  dot(CX,CY,6*DPR, HUE.gold, 0.5*p);
+  // a small key glyph: a ring plus a shaft, drawn with strokes
+  g.save(); g.translate(CX,CY); g.rotate(-0.5);
+  g.beginPath(); g.arc(-14*DPR,0,6*DPR,0,6.29); g.strokeStyle='rgba('+HUE.gold+','+(0.6*p)+')'; g.lineWidth=1.6*DPR; g.stroke();
+  seg(-8*DPR,0, 16*DPR,0, HUE.gold, 0.6*p, 1.6);
+  seg(10*DPR,0, 10*DPR,6*DPR, HUE.gold, 0.6*p, 1.6);
+  seg(15*DPR,0, 15*DPR,5*DPR, HUE.gold, 0.6*p, 1.6);
+  g.restore();
+  // the owner node: dashed, unfilled — the binding is not yet complete, drawn honestly as absent
+  var ownerY=CY-R*0.9;
+  if(p>0.5){
+    g.save(); g.setLineDash([3*DPR,4*DPR]);
+    g.beginPath(); g.arc(CX,ownerY,8*DPR,0,6.29);
+    g.strokeStyle='rgba('+HUE.ink+',0.28)'; g.lineWidth=1.2*DPR; g.stroke(); g.restore();
+    seg(CX,CY-10*DPR, CX,ownerY+10*DPR, HUE.ink, 0.08, 0.8);
+    label('owner — not yet bound', CX, ownerY-16*DPR, 10.5, HUE.ink, 0.32);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* forge: many dim proposals, one accepted at exact bytes */
+function drawForge(dt){
+  g.clearRect(0,0,W,H);
+  var n=9, tt=dt*0.0006;
+  for(var k=0;k<n;k++){
+    var ang=k/n*6.28+tt*0.3, rr=R*0.7;
+    var x=CX+Math.cos(ang)*rr, y=CY+Math.sin(ang)*rr*0.6;
+    dot(x,y,2.4*DPR, HUE.c, 0.16+0.06*Math.sin(tt+k));
+  }
+  var accP=Math.min(1,Math.max(0,dt-900)/1000);
+  if(accP>0){
+    var ang0=0.4, rr0=R*0.7, x0=CX+Math.cos(ang0)*rr0, y0=CY+Math.sin(ang0)*rr0*0.6;
+    segP(x0,y0, CX,CY, HUE.gold, 0.5*accP, 1.4, accP);
+    dot(CX,CY,(3+accP*3)*DPR, HUE.gold, 0.5+accP*0.4);
+  }
+  if(accP>0.8){ label('proposed', CX, CY+R*0.85, 11, HUE.c, 0.4); label('accepted — exact bytes', CX, CY-R*0.5, 11, HUE.gold, 0.6); }
+  requestAnimationFrame(loop);
+}
+
+/* peer witnesses: a sparse constellation, each node holding a small kept commitment */
+function drawWitnesses(dt){
+  g.clearRect(0,0,W,H);
+  var n=9, tt=dt*0.00022, pts=[];
+  for(var k=0;k<n;k++){
+    var a=k/n*6.28 + Math.sin(tt+k)*0.15;
+    var rr=R*(0.55+0.28*Math.sin(k*2.1+tt*0.6));
+    pts.push([CX+Math.cos(a)*rr, CY+Math.sin(a)*rr*0.62]);
+  }
+  var links=[[0,2],[1,4],[2,5],[3,6],[4,7],[5,8],[6,1],[7,3],[8,0]];
+  links.forEach(function(l){
+    seg(pts[l[0]][0],pts[l[0]][1], pts[l[1]][0],pts[l[1]][1], HUE.l, 0.08, 0.7);
+  });
+  pts.forEach(function(pt,k){
+    dot(pt[0],pt[1], 6*DPR, HUE.l, 0.14);
+    dot(pt[0],pt[1], 2*DPR, HUE.gold, 0.45+0.15*Math.sin(tt*2+k));
+  });
+  requestAnimationFrame(loop);
+}
+
+/* the tesseract's job: return to the full form, warm and slow (reused for Aura + the finale) */
+function drawClose(dt){
+  g.clearRect(0,0,W,H);
+  var pts=tess(dt*0.00016,2);
+  for(var k=0;k<E.length;k++){
+    var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.08+depth*0.26, 0.6+depth*1.4);
+  }
+  for(k=0;k<pts.length;k++){
+    var v=pts[k];
+    dot(CX+v[0]*R, CY+v[1]*R, (1+v[2]*2.4)*DPR, HUE.ink, 0.20+v[2]*0.4);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* kira: a query resolving from a dashed halo into a solid ring */
+function drawKira(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1,dt/1800);
+  dot(CX,CY,4*DPR, HUE.gold, 0.4+0.3*p);
+  g.save();
+  if(p<1) g.setLineDash([3*DPR,5*DPR]);
+  g.beginPath(); g.arc(CX,CY,(14+p*4)*DPR,0,6.29);
+  g.strokeStyle='rgba('+HUE.gold+','+(0.15+p*0.35)+')'; g.lineWidth=1.2*DPR; g.stroke();
+  g.restore();
+  if(p>0.85) label('checked, not simply believed', CX, CY+R*0.55, 11, HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+/* the whole machine: the tesseract with ten small orbiting jobs, ticking through in sequence */
+function drawWhole(dt){
+  g.clearRect(0,0,W,H);
+  var pts=tess(dt*0.00012,2);
+  for(var k=0;k<E.length;k++){
+    var a=pts[E[k][0]], b=pts[E[k][1]];
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.ink, 0.05, 0.6);
+  }
+  var jobs=10, tt=dt*0.00035;
+  for(k=0;k<jobs;k++){
+    var a2=k/jobs*6.28, rr=R*1.32;
+    var x=CX+Math.cos(a2+tt*0.15)*rr, y=CY+Math.sin(a2+tt*0.15)*rr*0.6;
+    var tick=((dt*0.00028 - k/jobs) % 1 + 1) % 1;
+    var hot = tick<0.12 ? 1-(tick/0.12) : 0;
+    dot(x,y, (2+hot*3)*DPR, HUE.gold, 0.18+hot*0.6);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ============================= scene table ============================= */
+var GH_INV='https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/AN_INVITATION.md';
+var GH_GB='https://github.com/aumara-xyz/golden-horizon-principle/blob/main/research/THE_GOLDEN_BOUNDARY.md';
+var GH_ZH='https://github.com/aumara-xyz/zeta-harp';
+
+SCENES=[
+  { render:drawZetaA, enter:function(){ showBox('The critical line',
+      'A hundred and sixty‑five years ago, a mathematician drew one line.',
+      'Bernhard Riemann’s zeta function organizes itself around a single boundary — the line where the real part of s equals one half. Every nontrivial zero ever computed sits exactly on it, into the trillions. Whether every zero must is the single most famous unsolved problem in mathematics.'); } },
+  { render:drawZetaB, enter:function(){ showBox('The crossing',
+      'A zero is a point where something becomes distinguishable, right on the boundary.',
+      'This page borrows only that image — a line, and a point landing on it — not the mathematics of zeta itself. What follows is not a claim about the Riemann Hypothesis and proves nothing about it either way. It is a doorway, not evidence, and the rest of this page will hold that same discipline about itself.'); } },
+  { render:drawForm, enter:function(){ showBox('The boundary','The surface has a shape — and it is exact.',
+      'This is a tesseract: a four‑dimensional cube, shown as the shadow it casts into three. It is a viewing frame, not a claim about the world. Sixteen vertices. Thirty‑two edges. What matters is not its beauty — it is what happens where two of these meet.'); } },
+  { render:drawFaces, enter:function(){ formT=performance.now(); showBox('The twenty‑seven','A cube has exactly twenty‑seven faces.',
+      'Eight corners, twelve edges, six sides, and the cube itself. Three choices in three directions — 3³ = 27. Counted, not chosen. The Moon returns to the same place among the stars every 27.32 days, which is why the sky was divided into twenty‑seven long before anyone drew a cube. Different causes. The same shape of question: how many positions can something occupy, relative to a boundary?'); } },
+  { render:drawMeeting, enter:function(){ showBox('The meeting','When two worlds meet, they meet along a shared face — and that face is the twenty‑seven.',
+      'It belongs to neither side and to both. What is a push from one side is a pull from the other — forced, not chosen, the same fact that makes a soap film curve toward the larger of two bubbles. The centre, the zero, does not move when the sides reverse. It is the one thing both observers agree on precisely because neither pinned it down.'); } },
+
+  { render:drawDiary, enter:function(){ showBox('The diary','Imagine someone hands you a hundred‑page diary.',
+      'Instead of a copy, you take a tiny mathematical fingerprint and put it in your pocket. Tomorrow they return with a hundred and fifty pages: same diary, I only added fifty. Now you can say: prove it.'); } },
+  { render:drawProve, enter:function(){ showBox('Prove it','Three answers are allowed. Only three.',
+      'Append‑only — the new pages provably extend what you kept. Observation‑conflict — they don’t, and the mismatch is exact, not a suspicion. Undetermined — there isn’t enough to decide, and the system says so instead of guessing. None of this claims the pages are true. Only that they are, or are not, the same history you were shown before.'); } },
+  { render:drawInvariant, enter:function(){ showBox('The invariant','The actor does not get to hold the only copy of what it did.',
+      'Once an independent observer has kept something, the machine that acted should not retain unilateral power to rewrite it. Most computing is one party acting, storing, and narrating. This is the same three jobs, deliberately no longer done by the same hands.'); } },
+  { render:drawLaw, enter:function(){ showBox('What did it claim','Every action a model proposes can leave a receipt.',
+      'The receipt is not the model’s word for it — it is a record a separate layer produced while the action happened, not a summary written afterward. History exists to hold the machine to, not history the machine writes about itself.'); } },
+  { render:drawKey, enter:function(){ showBox('Whose authority','A key signs the history. A key still is not a person.',
+      'A signature says which cryptographic authority attested to a record. Binding that key to an actual human owner, unforgeably, is a separate and harder problem — and this system says plainly where that binding is not yet complete, rather than pretending it is.'); } },
+  { render:drawForge, enter:function(){ showBox('Propose, not accept','Intelligence proposes. It does not also get to authorize.',
+      'A model can be extraordinarily capable and still hold zero authority to make anything real. Acceptance binds to the exact bytes reviewed — not the intent, not a summary, the bytes — so what was approved and what was proposed can never quietly drift apart.'); } },
+  { render:drawWitnesses, enter:function(){ showBox('Independent memory','One machine can rewrite its own disk. It cannot rewrite what someone else remembers.',
+      'A second machine that once received a small commitment keeps it, outside the first machine’s control. Multiply that across independent observers and rewriting a history silently stops being a local problem, because pieces of it already left the building.'); } },
+  { render:drawClose, enter:function(){ showBox('The instrument panel','The tesseract is not the truth. It is where the evidence becomes perceptible.',
+      'Underneath, the evidence is cryptographic and largely unreadable at a glance — roots, proofs, receipts, open questions. This shape’s job is to make that legible, never to grant authority by looking a certain way. A beautiful shape that lied would be worse than no shape at all.'); } },
+  { render:drawKira, enter:function(){ showBox('Memory','Recall is not the same claim as verified memory.',
+      'An assistant that says you told me this once is making a claim about the past. Anchoring that claim to what was actually, verifiably retained turns recollection into something that can be checked, instead of simply believed.'); } },
+  { render:drawWhole, enter:function(){ showBox('The pattern','One sentence underneath all of it.',
+      'The thing being observed does not get to control the observer’s memory. Acts, receipts, commitments, an observer who keeps something outside the actor’s reach, independent witnesses, a signature, an owner, a memory that can be checked, and a shape a human can actually look at — separate jobs, never collapsed into one.',
+      'Further reading, cited and not embedded — this page borrows no claims from it, only the direction to look: github.com/aumara-xyz/zeta-harp'); } },
+
+  { render:drawPrice, enter:function(){ showBox('The price','A boundary costs at least as much as the two sides share.',
+      'H(B) ≥ I(X;Y) — a theorem, not a metaphor. The more deeply two things are joined, the more the surface between them must carry. There is no cheap membrane between things that truly belong to each other. The price of remaining two, rather than collapsing into one, is exactly everything you have in common.'); } },
+  { render:drawClose, enter:function(){ showBox('The invitation','A boundary needs two sides. We cannot be both.',
+      'This work reached this far by being carried, unproven, from one observer to the next — each able to say no. It can only go further the same way: through a second witness, in a place that decided long ago to measure what actually matters. You are not the audience for this. You are the next observer.',
+      null,
+      function(){
+        blinks.innerHTML =
+          '<a class="pri" href="'+GH_INV+'">Read the invitation</a>'+
+          '<a class="sec" href="'+GH_GB+'">The Golden Boundary</a>';
+        advEl.classList.remove('on');
+      }); } }
+];
+
+/* ============================= loop / input ============================= */
+function loop(){
+  layout();
+  SCENES[scene].render(performance.now()-formT);
+}
+
+document.getElementById('stage').addEventListener('click', function(e){
+  if(e.target.closest && e.target.closest('.links')) return;
+  advance();
+});
+document.getElementById('ui').addEventListener('click', function(e){
+  if(e.target.closest && e.target.closest('.links')) return;
+  advance();
+});
+addEventListener('keydown', function(e){
+  if(['Enter',' ','ArrowRight'].indexOf(e.key)>-1){ e.preventDefault(); advance(); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); goBack(); }
+});
+var skipEl=document.getElementById('skip'), backEl=document.getElementById('back');
+skipEl.addEventListener('click', function(e){ e.stopPropagation(); enterScene(SCENES.length-1); });
+backEl.addEventListener('click', function(e){ e.stopPropagation(); goBack(); });
+setTimeout(function(){ skipEl.classList.add('on'); }, 1200);
+
+var progEl=document.getElementById('progress');
+var _enter=enterScene;
+enterScene=function(n){
+  _enter(n);
+  if(window.HARP) HARP.live(n<=1);
+  progEl.style.width=(100*n/(SCENES.length-1))+'%';
+  if(n>0) backEl.classList.add('on'); else backEl.classList.remove('on');
+};
+
+enterScene(0);
+requestAnimationFrame(loop);
+}
+})();
+</script>
 </body>
 </html>
