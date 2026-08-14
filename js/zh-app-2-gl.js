@@ -4,7 +4,7 @@
 
 var GLR = (function () {
   var canvas = document.getElementById('gl');
-  var gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
+  var gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: true });
   var ok = !!gl;
   if (!ok) { canvas.style.display = 'none'; }
 
@@ -247,8 +247,8 @@ var GLR = (function () {
     var dpr = Math.min(2, window.devicePixelRatio || 1);
     var w = Math.floor(canvas.clientWidth * dpr), h = Math.floor(canvas.clientHeight * dpr);
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
-    gl.viewport(0, 0, w, h);
-    gl.clearColor(0.016, 0.023, 0.043, 1);
+    gl.viewport(Math.floor(w * 0.36), 0, Math.floor(w * 0.64), h);
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     /* camera inertia + eased zoom (the ZOOM slider drives distTarget; nothing

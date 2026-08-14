@@ -9,13 +9,12 @@
 <meta name="theme-color" content="#11141d">
 <!--
   aukora.xyz/royal-invite — self-contained: no frameworks, no trackers, no external requests.
-  A long click-through: a Riemann-zeta-inspired opening (image only, not the mathematics, and
-  said so on-screen) resolves into a boundary; the boundary reveals the twenty-seven; two cells
-  meet and neither merges; then the engineering story — Merkle consistency, receipts, propose vs
-  accept, peer witnesses, signatures, Aura as instrument panel, KIRA — then the cost theorem and
-  the invitation. Dark blue-grey (not black), light text, minimal, click/tap/keys to advance, a
-  subtle back control, no controllable Zeta Harp embedded — original non-interactive animation
-  only, citing github.com/aumara-xyz/zeta-harp as further reading, not as a source of claims.
+  Wide screens: text left, artwork right, both large. Narrow/mobile: artwork on top, text below.
+  A Riemann-zeta-inspired tunnel opens the piece, ignites, and grows into the tesseract on screen —
+  an original, non-interactive homage, not the real Zeta Harp instrument (linked, not embedded, not
+  described as if inspected). Text reveals sentence by sentence, fully laid out from frame one, so
+  nothing reflows or stacks abruptly. Click / tap / arrow keys / space to advance, subtle text-only
+  back and skip controls, no overclaiming beyond what the real system actually does today.
 -->
 <style>
   :root{
@@ -38,12 +37,21 @@
   *{box-sizing:border-box; margin:0; padding:0}
   html,body{height:100%; overflow:hidden; background:var(--bg0); color:var(--ink);
     font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; -webkit-font-smoothing:antialiased}
-  body{ background:linear-gradient(180deg, var(--bg0), var(--bg1)); }
+  body{
+    background:
+      radial-gradient(ellipse 70% 45% at 50% 38%, rgba(var(--gold),.045), transparent 60%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+  }
+  body.split{
+    background:
+      radial-gradient(ellipse 55% 55% at 74% 50%, rgba(var(--gold),.05), transparent 60%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+  }
   canvas{position:fixed; inset:0; display:block; touch-action:none}
   #stage{position:fixed; inset:0; cursor:pointer}
 
   /* ---------- password veil ---------- */
-  .veil{position:fixed; inset:0; z-index:40; display:grid; place-items:center;
+  .veil{position:fixed; inset:0; z-index:20; display:grid; place-items:center;
     background:linear-gradient(180deg, var(--bg0), var(--bg1)); transition:opacity 1.1s var(--ease)}
   .gate{width:min(88vw,400px); text-align:center; padding:2.6rem 2.1rem;
     border:1px solid var(--border); border-radius:16px; background:var(--panel)}
@@ -57,24 +65,28 @@
   .hint{margin-top:1.1rem; font-size:.82rem; color:var(--faint)}
   .err{color:var(--warn); min-height:1rem; font-size:.85rem; margin-top:.7rem}
 
-  /* ---------- text box (video-game style, click-to-advance) ---------- */
+  /* ---------- text box (video-game style, sentence-by-sentence reveal) ---------- */
   #ui{position:fixed; inset:0; z-index:10; pointer-events:none;
     display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
     padding:0 6vw 9vh}
+  body.split #ui{ flex-direction:row; justify-content:flex-start; align-items:center; padding:0 0 0 7vw }
   #box{max-width:640px; width:100%; opacity:0; transform:translateY(14px);
     transition:opacity .6s var(--ease), transform .6s var(--ease)}
   #box.on{opacity:1; transform:translateY(0)}
+  body.split #box{ max-width:min(560px,40vw) }
   .k{font-size:.78rem; letter-spacing:.2em; text-transform:uppercase; color:rgb(var(--gold)); margin-bottom:.7rem}
-  #box h2{font-weight:600; font-size:clamp(1.3rem,3.6vw,1.8rem); line-height:1.32; letter-spacing:-.01em; margin-bottom:.85rem; color:var(--ink)}
-  #box p{color:var(--dim); font-size:clamp(.98rem,2vw,1.05rem); line-height:1.72}
-  #box .fence{display:block; margin-top:.6rem; color:var(--faint); font-size:.88rem; font-style:italic}
-  .links{margin-top:1.5rem; display:flex; gap:.6rem; flex-wrap:wrap; pointer-events:auto}
-  .links a{display:inline-block; text-decoration:none; font-size:.85rem; letter-spacing:.03em;
-    padding:.8rem 1.4rem; border-radius:10px; transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
+  #box h2{font-weight:600; font-size:clamp(1.4rem,3.6vw,2.1rem); line-height:1.3; letter-spacing:-.01em; margin-bottom:.9rem; color:var(--ink)}
+  #box p{color:var(--dim); font-size:clamp(1.02rem,2vw,1.12rem); line-height:1.74}
+  #box p .ln{opacity:0; transition:opacity .7s ease}
+  #box p .ln.show{opacity:1}
+  #box p .ln.fence{display:block; margin-top:.7rem; color:var(--faint); font-size:.86rem; font-style:italic}
+  .links{margin-top:1.8rem; display:flex; gap:.7rem; flex-wrap:wrap; pointer-events:auto}
+  .links a{display:inline-block; text-decoration:none; font-size:.95rem; letter-spacing:.02em;
+    padding:1rem 1.9rem; border-radius:12px; transition:transform .25s var(--ease), box-shadow .25s var(--ease)}
   .links a.pri{background:rgb(var(--gold)); color:#171308; font-weight:600}
   .links a.sec{background:transparent; border:1px solid var(--border); color:var(--ink)}
   .links a:hover{transform:translateY(-2px)}
-  .links a.pri:hover{box-shadow:0 10px 26px -10px rgba(var(--gold),.55)}
+  .links a.pri:hover{box-shadow:0 12px 30px -10px rgba(var(--gold),.6)}
 
   #advance{position:fixed; bottom:3.2vh; left:0; right:0; z-index:10; text-align:center;
     font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint);
@@ -94,212 +106,67 @@
   #progress{position:fixed; top:0; left:0; height:2px; background:rgb(var(--gold));
     z-index:12; transition:width .5s var(--ease); width:0%}
 
-
-  canvas#gl{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;background:#0a0f1c}
-  canvas#stage{background:transparent;z-index:1}
-  body.harp-live canvas#stage{opacity:0}
-  #harpChrome{position:fixed;inset:0;z-index:2;opacity:0;pointer-events:none;visibility:hidden}
-  #fade{position:fixed;inset:0;z-index:15;background:#0a0f1c;pointer-events:none;opacity:0;transition:opacity 2.2s}
-  @media (prefers-reduced-motion:reduce){ #advance{animation:none} }
+  #glWell{
+    position:fixed; inset:0;
+    z-index:0; opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .9s var(--ease);
+    background:transparent;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 26%, rgba(0,0,0,.18) 38%, #000 52%, #000 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, transparent 26%, rgba(0,0,0,.18) 38%, #000 52%, #000 100%);
+  }
+  body.harp-live #glWell{ opacity:1 !important; visibility:visible !important; }
+  #glWell canvas#gl{
+    position:absolute; inset:0; width:100% !important; height:100% !important;
+    display:block; background:transparent;
+  }
+  canvas#gl{ z-index:0; background:transparent; }
+  body.harp-live canvas#stage{ visibility:visible; pointer-events:none; background:transparent; }
+  body.harp-live #ui{ pointer-events:auto; }
+  #harpChrome{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; }
+  #fade{ position:fixed; inset:0; z-index:15; background:transparent; pointer-events:none; opacity:0; }
+  @media (max-width:859px){
+    #glWell{
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, rgba(0,0,0,.2) 62%, transparent 84%);
+              mask-image: linear-gradient(180deg, #000 0%, #000 42%, rgba(0,0,0,.2) 62%, transparent 84%);
+    }
+  }
+  @media (prefers-reduced-motion:reduce){ #advance{animation:none} #glWell{transition:none} }
 </style>
 </head>
 <body>
 
-<canvas id="gl"></canvas>
+<div id="glWell"><canvas id="gl"></canvas></div>
 <div id="fade"></div>
 <div id="harpChrome" aria-hidden="true">
-
-<div id="vignette"></div>
-
-<div id="topbar" class="hud">
-  <div id="masthead">
-    <h1 id="mastTitle">Zeta Harp</h1>
-    <div class="sub" id="mastSub">known mathematics &middot; not evidence &middot; every number checkable</div>
-  </div>
-  <a id="foldLink" href="./fold.html">the machine it belongs to &rarr;</a>
+  <div id="vignette"></div>
+  <div id="topbar" class="hud"><div id="masthead"><h1 id="mastTitle">Zeta Harp</h1><div class="sub" id="mastSub"></div></div><a id="foldLink" href="https://zeta-harp.kimi.page/">harp</a></div>
+  <div id="leftCol" class="hud"><div id="eventLabel"></div></div>
+  <aside id="indicators" class="hud">
+    <div id="torusViews"><button class="tor-view on" id="torViewShadow" data-view="shadow"></button><button class="tor-view" id="torViewSlice" data-view="slice"></button><button class="tor-view" id="torViewUnfold" data-view="unfold"></button></div>
+    <canvas id="torusCv"></canvas><div id="torusLbl"></div><canvas id="sliceCv"></canvas>
+  </aside>
+  <aside id="cluster" class="hud">
+    <button id="playBtn"><span class="ic-pause"></span></button>
+    <input type="range" id="speedSlider" min="0" max="100" value="35">
+    <input type="range" id="zoomSlider" min="0" max="100" value="26">
+    <button id="soundToggle">OFF</button>
+    <input type="range" id="soundVol" min="0" max="100" value="35">
+    <button id="quantToggle">OFF</button>
+    <button class="cl-chip" id="chipFlower"></button>
+    <button class="cl-chip" id="chipScope"></button>
+    <button class="cl-chip" id="chipFence"></button>
+    <canvas id="soundViz"></canvas>
+    <div id="soundErr"></div>
+  </aside>
+  <div id="ribbonPanel"><canvas id="ribbon" width="1200" height="110"></canvas><div id="mapChips"><span class="layerToggle" id="lyrM"></span><span class="layerToggle" id="lyrZ"></span><span class="layerToggle" id="lyrR"></span></div><div id="ribbonSide"><div class="presetRow" id="presets"></div></div></div>
+  <div id="flowerPanel" class="panel hidden"><h2></h2><canvas id="flower" width="712" height="712"></canvas></div>
+  <div id="inspectorPanel" class="panel hidden"><div id="inspectorBody"></div><button id="voiceBtn"></button></div>
+  <div id="microPanel" class="panel hidden"><select id="microZeroSel"></select><canvas id="microCurve" width="800" height="260"></canvas><canvas id="microBars" width="800" height="300"></canvas><div id="microNums"></div></div>
+  <div id="fencePanel" class="panel hidden"><div id="fenceInner"></div><table id="fenceRTable"></table><p id="fenceRNote"></p><p id="fenceDisclosures"></p><table id="fenceVTable"></table></div>
+  <svg id="tourSVG" class="hud"></svg>
+  <div id="tourBeat" class="hud"></div>
 </div>
 
-<div id="leftCol" class="hud">
-  <div id="eventLabel"></div>
-</div>
-
-<aside id="indicators" class="hud" aria-label="position indicators">
-  <div id="torusViews" role="group" aria-label="torus view">
-    <button class="tor-view on" id="torViewShadow" data-view="shadow" aria-pressed="true">SHADOW</button>
-    <button class="tor-view" id="torViewSlice" data-view="slice" aria-pressed="false">SLICE</button>
-    <button class="tor-view" id="torViewUnfold" data-view="unfold" aria-pressed="false">UNFOLD</button>
-  </div>
-  <canvas id="torusCv"></canvas>
-  <div id="torusLbl">the torus — the formula's phases, turning</div>
-  <canvas id="sliceCv"></canvas>
-</aside>
-
-<aside id="cluster" class="hud" aria-label="controls">
-  <div class="cl-row">
-    <button id="playBtn" aria-label="play or pause" aria-pressed="true"><span class="ic-pause"></span></button>
-    <span class="cl-lbl">PLAY</span>
-  </div>
-  <div class="cl-note">fly on your own</div>
-  <div class="cl-row">
-    <span class="cl-lbl">SPEED</span>
-    <input type="range" id="speedSlider" min="0" max="100" value="35" aria-label="speed">
-  </div>
-  <div class="cl-note">how fast you climb</div>
-  <div class="cl-row">
-    <span class="cl-lbl">ZOOM</span>
-    <input type="range" id="zoomSlider" min="0" max="100" value="26" aria-label="zoom">
-  </div>
-  <div class="cl-note">pull back or dive in</div>
-  <div class="cl-row" id="cpSound">
-    <span class="cl-lbl">SOUND</span>
-    <button id="soundToggle" aria-pressed="false">OFF</button>
-  </div>
-  <div class="cl-note">the sum as sound</div>
-  <div class="cl-row">
-    <span class="cl-lbl">VOLUME</span>
-    <input type="range" id="soundVol" min="0" max="100" value="35" aria-label="volume">
-  </div>
-  <div class="cl-note">loudness</div>
-  <div class="cl-row">
-    <span class="cl-lbl">DEGREES</span>
-    <button id="quantToggle" aria-pressed="false">OFF</button>
-  </div>
-  <div class="cl-note">snap voices to a scale &mdash; prettier, not pure math (off = raw law)</div>
-  <div class="cl-note">three ways to look closer</div>
-  <div class="cl-row cl-chips">
-    <button class="cl-chip" id="chipFlower" aria-pressed="false">flower</button>
-    <button class="cl-chip" id="chipScope" aria-pressed="false">scope</button>
-    <button class="cl-chip" id="chipFence" aria-pressed="false">fence</button>
-  </div>
-  <canvas id="soundViz"></canvas>
-  <div id="soundErr" role="status"></div>
-</aside>
-
-<div id="ribbonPanel" class="hud">
-  <canvas id="ribbon" width="1200" height="110"></canvas>
-  <div id="mapChips">
-    <span class="layerToggle" id="lyrM" title="the strings (tunnel)"><span class="swatch" style="background:var(--blue)"></span>M</span>
-    <span class="layerToggle" id="lyrZ" title="the resultant (chart + tunnel)"><span class="swatch" style="background:var(--gold)"></span>Z</span>
-    <span class="layerToggle" id="lyrR" title="the fixture remainder (chart)"><span class="swatch" style="background:var(--purple)"></span>R</span>
-  </div>
-  <div id="ribbonSide">
-    <div class="presetRow" id="presets">
-      <button class="chip" data-t="130">130</button>
-      <button class="chip" data-t="10000">10&#8308;</button>
-      <button class="chip" data-t="1000000">10&#8310;</button>
-      <button class="chip" data-t="100000000">10&#8312;</button>
-    </div>
-  </div>
-</div>
-
-<div id="flowerPanel" class="panel hidden">
-  <h2><span></span><span class="x" data-close="flowerPanel">[close]</span></h2>
-  <canvas id="flower" width="712" height="712"></canvas>
-  <div class="caveat">the vertical axis is auxiliary; the resultant is never |Z|</div>
-</div>
-
-<div id="inspectorPanel" class="panel hidden">
-  <h2>Term inspector <span class="x" data-close="inspectorPanel">[close]</span></h2>
-  <div class="kv" id="inspectorBody">click a helix or a phasor to select a term</div>
-  <div style="margin-top:8px"><button class="ghost" id="voiceBtn">voice this term</button></div>
-</div>
-
-<div id="microPanel" class="panel hidden">
-  <h2>Zero microscope — refined reference list <span class="x" data-close="microPanel">[close]</span></h2>
-  <div id="microHead">the microscope &mdash; zooms on the nearest crossing</div>
-  <select id="microZeroSel"></select>
-  <canvas id="microCurve" width="800" height="260"></canvas>
-  <canvas id="microBars" width="800" height="300"></canvas>
-  <div class="kv" id="microNums"></div>
-  <div class="caveat">Zeros above come only from the embedded refined reference list
-  (Odlyzko-derived table, refined with high-precision Z; NOT certified). Sign changes of
-  the main sum computed here are "computed crossings (finite approximation)" — the offset
-  between our crossing and the reference ordinate is the finite-sum error, shown above.
-  The reference table covers t &lt; ~75000; no reference zeros exist in this build above
-  that height.</div>
-</div>
-
-<div id="fencePanel" class="panel hidden">
-  <button id="fenceClose" data-close="fencePanel">[close]</button>
-  <div id="fenceInner"><h2 style="margin-top:0">The fence</h2>
-<p class="lawline">KNOWN MATHEMATICS / INTERACTIVE SCIENTIFIC AND ARTISTIC INSTRUMENT /
-NOT EVIDENCE FOR RH OR GHP</p>
-<p>This page renders and sonifies one object: the Riemann-Siegel main sum for Hardy's
-Z-function on the critical line. All of the mathematics below is standard (DLMF 25.10)
-and none of it is claimed as new. Every number on screen is computed from these formulas
-— nothing here is measured from nature, and nothing here certifies anything.</p>
-
-<h2>The formulas</h2>
-<div class="frm">Z(t) = e<sup>i&theta;(t)</sup> &zeta;(&frac12; + it)&emsp;(real for real t)
-
-&theta;(t) &asymp; (t/2)&thinsp;ln(t/2&pi;) &minus; t/2 &minus; &pi;/8 + 1/(48t) + 7/(5760t&sup3;)&emsp;(working asymptotic)
-&theta;&prime;(t) &asymp; &frac12;&thinsp;ln(t/2&pi;) &minus; 1/(48t&sup2;) &minus; 7/(1920t&#8308;)
-
-N(t) = &lfloor;&radic;(t/2&pi;)&rfloor;
-a<sub>n</sub> = 2/&radic;n&emsp;(computed spectral amplitude)
-&phi;<sub>n</sub>(t) = &theta;(t) &minus; t&thinsp;ln n
-c<sub>n</sub>(t) = a<sub>n</sub> cos &phi;<sub>n</sub>(t)
-M(t) = &Sigma;<sub>n=1..N(t)</sub> c<sub>n</sub>(t)&emsp;(the main sum — everything drawn and heard)
-R_ref(t) = Z_ref(t) &minus; M(t)&emsp;(remainder, by subtraction from high-precision reference)
-
-t<sub>n</sub> = 2&pi;n&sup2;&emsp;(CUTOFF-ENTRY height of term n — a height, never a frequency)
-h<sub>n</sub>(u) = ( a<sub>n</sub> cos &phi;<sub>n</sub>(u), a<sub>n</sub> sin &phi;<sub>n</sub>(u), scale_t &middot; (u &minus; t&#8320;) )&emsp;(3D phase trajectory)
-f_audio_n = v_t &middot; (&theta;&prime;(t) &minus; ln n)/2&pi;&emsp;(Truth Audio law)</div>
-
-<h2>What is omitted</h2>
-<p>The geometry and the audio render the main sum M(t) only. The remainder
-R_ref(t) = Z_ref(t) &minus; M(t) is <em>not</em> drawn as geometry; it is shown as a
-separate labeled trace where fixture data exists, and disclosed here. Fixture-measured
-scale of the omitted remainder (max |R_ref| over each embedded reference window):</p>
-<table id="fenceRTable"><tr><th>window</th><th>height range</th><th>max |R_ref|</th><th>RMS R_ref</th><th>max |M|</th></tr></table>
-<p class="lawline" id="fenceRNote"></p>
-
-<h2>Disclosed rendering and audio constants</h2>
-<p class="lawline" id="fenceDisclosures">(live values fill in here)</p>
-<p>These are the only free constants in Truth Mode. There are no fitted parameters, no
-per-string tuning, no frequency remapping. The phasor pictures use the imaginary part of
-the phasor sum as an AUXILIARY visualization coordinate: only the real part equals M(t),
-and the magnitude of the phasor sum is never labeled |Z|.</p>
-
-<h2>Labeling laws in force</h2>
-<p class="lawline">
-&bull; amplitudes 2/&radic;n are "computed spectral", never "measured"<br>
-&bull; 2&pi;n&sup2; is a cutoff-entry height, never a frequency<br>
-&bull; sign changes of the main sum are "computed crossings (finite approximation)";
-sign changes of fixture Z_ref are "computed reference crossings"; neither is a certified zero<br>
-&bull; the refined zero list is Odlyzko-derived and mpmath-refined, NOT certified<br>
-&bull; heights near 10&#8312; sit at the float64 phase-accuracy frontier (~10&#8315;&#8311; rad);
-that is where this instrument's honest range ends</p>
-
-<h2>Validation</h2>
-<p>The donor's record, inherited and NOT verifiable in this repository: before this page
-shipped, the inline &theta;, &theta;&prime; and M(t) were checked
-against frozen high-precision fixtures (mpmath, 80 significant digits) on four windows —
-W1 [100,160], W2 near 10&#8308;, W3 near 10&#8310;, W4 near 10&#8312; — plus a
-40-entry refined zero list. Compact excerpts of those fixtures are embedded in this page
-and drawn as the reference overlays. <b>The full-precision originals, their SHA-256 manifest and
-the check harness did not travel with this page and are not in this repository</b> &mdash; what you
-can check here is what is here: the embedded excerpts, and the in-page recomputation of the inline
-main sum against them reported in the table above.</p>
-<table id="fenceVTable"><tr><th>window</th><th>points embedded</th><th>max |M_inline &minus; M_fixture|</th></tr></table>
-
-<h2>The Riemann fence</h2>
-<p><b>Nothing in this instrument is evidence for or against the Riemann Hypothesis.</b>
-It draws a finite, classical approximation to a function whose zeros are the subject of
-that conjecture, and it checks its own arithmetic against the reference fixtures embedded in
-it. That is
-all it does. If it is beautiful, the beauty belongs to the mathematics, not to any claim.</p>
-
-<p style="margin-top:24px"><button class="ghost" data-close="fencePanel">return to the instrument [i]</button></p>
-</div>
-</div>
-
-
-<svg id="tourSVG" class="hud" aria-hidden="true"></svg>
-<div id="tourBeat" class="hud" aria-live="polite"></div>
-
-
-</div>
 
 <div class="veil" id="veil">
   <div class="gate">
@@ -319,7 +186,6 @@ all it does. If it is beautiful, the beauty belongs to the mathematics, not to a
 <div id="back">← back</div>
 <div id="skip">skip ↦</div>
 
-
 <script src="js/zh-fixtures-1.js"></script>
 <script src="js/zh-fixtures-2.js"></script>
 <script src="js/zh-math.js"></script>
@@ -330,7 +196,6 @@ all it does. If it is beautiful, the beauty belongs to the mathematics, not to a
 <script src="js/zh-app-5-orchestration.js"></script>
 <script src="js/zh-app-6-main.js"></script>
 <script src="js/invite.js"></script>
-
 <script>
 (function(){
 "use strict";
@@ -353,26 +218,35 @@ setTimeout(function(){ inp.focus(); }, 400);
 function boot(){
 
 var cv=document.getElementById('stage'), g=cv.getContext('2d'), W,H,DPR,CX=0,CY=0,R=0;
-var boxEl=document.getElementById('box');
+var boxEl=document.getElementById('box'), isSplit=false;
 
+function computeMode(){
+  isSplit = innerWidth>=860 && innerWidth>=innerHeight*1.12;
+  document.body.classList.toggle('split', isSplit);
+}
 function size(){
   DPR=Math.min(2,window.devicePixelRatio||1);
   W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR;
   cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
   layout();
 }
-// BUG FIXED (previous pass): the artwork's centre/radius were fixed fractions of the viewport,
-// tuned on a tall phone. On a short, wide desktop window the text box occupies a much larger
-// share of the height, so a fixed CY collided with the heading text. layout() now measures the
-// text box's ACTUAL top edge every frame and keeps the artwork entirely above it, at any aspect.
+// Bigger, and layout-aware: wide screens split into a text column and a dedicated art half so the
+// tesseract can actually use the room; narrow/mobile stacks art above the (measured) text box.
 function layout(){
-  var r = boxEl.getBoundingClientRect();
-  var boxTop = r.height ? r.top : innerHeight*0.62;
-  var topMargin = Math.max(56, innerHeight*0.07);
-  var avail = Math.max(140, boxTop - 26 - topMargin);
-  CX = W/2;
-  CY = (topMargin + avail*0.52) * DPR;
-  R  = Math.max(Math.min(W,H)*0.13, Math.min(W, avail*DPR)*0.30);
+  computeMode();
+  if(isSplit){
+    var leftW=innerWidth*0.44, rightW=innerWidth-leftW;
+    CX=(leftW+rightW/2)*DPR; CY=H/2;
+    R=Math.min(rightW, innerHeight*0.88)*DPR*0.68;
+  } else {
+    var r=boxEl.getBoundingClientRect();
+    var boxTop=r.height? r.top : innerHeight*0.60;
+    var topMargin=Math.max(56, innerHeight*0.07);
+    var avail=Math.max(140, boxTop-26-topMargin);
+    CX=W/2;
+    CY=(topMargin+avail*0.54)*DPR;
+    R=Math.max(Math.min(W,H)*0.20, Math.min(W, avail*DPR)*0.50);
+  }
 }
 size(); addEventListener('resize', size);
 
@@ -397,7 +271,7 @@ function tess(tt, spin){
   });
 }
 
-/* ---------- small shared canvas primitives, used by the engineering-act scenes ---------- */
+/* ---------- small shared canvas primitives ---------- */
 function dot(x,y,r,hue,a){ g.beginPath(); g.arc(x,y,r,0,6.29); g.fillStyle='rgba('+hue+','+a+')'; g.fill(); }
 function seg(x1,y1,x2,y2,hue,a,w){ g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2);
   g.strokeStyle='rgba('+hue+','+a+')'; g.lineWidth=w*DPR; g.stroke(); }
@@ -406,35 +280,90 @@ function label(txt,x,y,size,hue,a,align){
   g.save(); g.font=(size*DPR)+'px ui-sans-serif, system-ui'; g.textAlign=align||'center';
   g.fillStyle='rgba('+hue+','+a+')'; g.fillText(txt,x,y); g.restore();
 }
+// R can now dwarf the available margin above/below CY (split-mode art can run near-edge-to-edge),
+// so label offsets are clamped to a share of the ACTUAL room on that side, never past it.
+function aboveY(mult){ return CY - Math.min(R*mult, CY*0.82); }
+function belowY(mult){ return CY + Math.min(R*mult, (H-CY)*0.6); }
+function leftX(mult){ return CX - Math.min(R*mult, CX*0.9); }
+function rightX(mult){ return CX + Math.min(R*mult, (W-CX)*0.9); }
+function fitR(mult){ return Math.min(R*mult, Math.min(CX,W-CX)*0.86, Math.min(CY,H-CY)*0.86); }
 
-/* ============================= text box / video-game reveal ============================= */
+/* ---------- the zeta tunnel — an original homage, reused by scenes 0 and 1 ---------- */
+function tunnelRings(dt, alphaMul){
+  var rings=6, segs=10;
+  for(var ri=0; ri<rings; ri++){
+    var depth=ri/(rings-1), rad=R*(1.55-depth*1.05), rot0=dt*0.00016+ri*0.5, pts=[];
+    for(var s=0;s<=segs;s++){
+      var a=(s/segs)*6.2832+rot0, wob=1+0.06*Math.sin(a*3+ri*1.7);
+      pts.push([CX+Math.cos(a)*rad*wob, CY+Math.sin(a)*rad*wob*0.86]);
+    }
+    g.beginPath();
+    for(var p=0;p<pts.length;p++){ if(p===0) g.moveTo(pts[p][0],pts[p][1]); else g.lineTo(pts[p][0],pts[p][1]); }
+    g.strokeStyle='rgba('+HUE.gold+','+(0.22*alphaMul)+')';
+    g.lineWidth=(1-depth*0.4)*DPR; g.stroke();
+  }
+}
+function tunnelStrands(dt, alphaMul, n){
+  n=n||100;
+  for(var i=0;i<n;i++){
+    var a=(i/n)*6.2832+Math.sin(i*12.9017)*0.5, rad=R*(1.9+0.7*Math.sin(i*7.233));
+    var a2=a+dt*0.00005;
+    var sx=CX+Math.cos(a2)*rad, sy=CY+Math.sin(a2)*rad*0.62;
+    var mx=CX+(sx-CX)*0.45, my=CY+(sy-CY)*0.45+Math.sin(i*3.1+dt*0.0004)*R*0.05;
+    var pulse=0.5+0.5*Math.sin(dt*0.0012+i*1.7);
+    g.beginPath(); g.moveTo(sx,sy); g.quadraticCurveTo(mx,my,CX,CY);
+    g.strokeStyle='rgba('+((i%2===0)?HUE.c:HUE.r)+','+((0.10+0.10*pulse)*alphaMul)+')';
+    g.lineWidth=0.7*DPR; g.stroke();
+  }
+}
+function tunnelGlow(dt, alphaMul, boost){
+  var rad=(10+boost*22)*DPR;
+  var grad=g.createRadialGradient(CX,CY,0,CX,CY,rad*2.4);
+  grad.addColorStop(0,'rgba('+HUE.ink+','+(0.55*alphaMul)+')');
+  grad.addColorStop(0.4,'rgba('+HUE.c+','+(0.18*alphaMul)+')');
+  grad.addColorStop(1,'rgba('+HUE.c+',0)');
+  g.fillStyle=grad; g.beginPath(); g.arc(CX,CY,rad*2.4,0,6.2832); g.fill();
+  dot(CX,CY,(2+boost*2)*DPR, HUE.gold, 0.5*alphaMul+boost*0.3);
+}
+
+/* ============================= text box / sentence reveal ============================= */
 var bk=document.getElementById('bk'), bh=document.getElementById('bh'),
     bp=document.getElementById('bp'), blinks=document.getElementById('blinks'), advEl=document.getElementById('advance');
-var typing=false, typeTimer=null, fullText='', shownChars=0, onDoneCb=null;
+var revealing=false, revealSpans=[], revealTimer=null, onDoneCb=null;
 
+function splitSentences(text){
+  var parts = text.match(/[^.!?]+[.!?]+(\s+|$)|[^.!?]+$/g) || [text];
+  return parts.map(function(s){ return s.trim(); }).filter(Boolean);
+}
 function showBox(kicker, head, body, fence, done){
   boxEl.classList.remove('on'); bk.textContent=kicker; bh.textContent=head;
   bp.innerHTML=''; blinks.innerHTML='';
   requestAnimationFrame(function(){ boxEl.classList.add('on'); });
-  fullText=body; shownChars=0; typing=true; advEl.classList.remove('on'); onDoneCb=done;
-  clearInterval(typeTimer);
-  var speed = reduce ? 0 : 12;
-  function render(){
-    bp.textContent = fullText.slice(0,shownChars);
-    if(fence && shownChars>=fullText.length){
-      var f=document.createElement('span'); f.className='fence'; f.textContent=fence;
-      bp.appendChild(f);
-    }
+
+  var stagger = reduce ? 0 : 260;
+  var sentences = splitSentences(body);
+  revealSpans = sentences.map(function(s,i){
+    var span=document.createElement('span'); span.className='ln';
+    span.textContent=(i>0?' ':'')+s; span.style.transitionDelay=(stagger*i)+'ms';
+    bp.appendChild(span); return span;
+  });
+  if(fence){
+    var f=document.createElement('span'); f.className='ln fence';
+    f.textContent=fence; f.style.transitionDelay=(stagger*revealSpans.length)+'ms';
+    bp.appendChild(f); revealSpans.push(f);
   }
-  if(speed===0){ shownChars=fullText.length; render(); finishType(); return; }
-  typeTimer=setInterval(function(){
-    shownChars+=3; if(shownChars>fullText.length) shownChars=fullText.length;
-    render();
-    if(shownChars>=fullText.length){ clearInterval(typeTimer); finishType(); }
-  }, speed);
+  revealing=true; advEl.classList.remove('on'); onDoneCb=done;
+  void bp.offsetWidth;
+  requestAnimationFrame(function(){ revealSpans.forEach(function(s){ s.classList.add('show'); }); });
+  clearTimeout(revealTimer);
+  revealTimer=setTimeout(finishReveal, stagger*revealSpans.length+700);
 }
-function finishType(){ typing=false; advEl.classList.add('on'); if(onDoneCb) onDoneCb(); }
-function completeTypeNow(){ clearInterval(typeTimer); shownChars=fullText.length; bp.textContent=fullText; finishType(); }
+function completeRevealNow(){
+  clearTimeout(revealTimer);
+  revealSpans.forEach(function(s){ s.style.transition='none'; s.style.transitionDelay='0ms'; s.classList.add('show'); });
+  finishReveal();
+}
+function finishReveal(){ revealing=false; advEl.classList.add('on'); if(onDoneCb) onDoneCb(); }
 
 /* ============================= scenes ============================= */
 var scene=0, formT=0;
@@ -445,7 +374,7 @@ function enterScene(n){
   SCENES[n].enter();
 }
 function advance(){
-  if(typing){ completeTypeNow(); return; }
+  if(revealing){ completeRevealNow(); return; }
   if(scene < SCENES.length-1) enterScene(scene+1);
 }
 function goBack(){
@@ -453,48 +382,217 @@ function goBack(){
 }
 
 /* =====================================================================
-   ACT I — THE ZETA OPENING (image only; not the mathematics; said so)
+   ACT I — LINE, ZERO, THEN SHAPES (harp only on the first two)
    ===================================================================== */
-
-/* Scene 0: the critical line — an original, non-interactive animation in the spirit of the
-   Riemann zeta function's critical line. Not the Zeta Harp instrument (see link in the closing
-   scene), not a claim about the Riemann Hypothesis, not evidence for anything later in this page. */
 function drawZetaA(dt){
   g.clearRect(0,0,W,H);
   requestAnimationFrame(loop);
 }
 function drawZetaB(dt){
   g.clearRect(0,0,W,H);
+  var land=Math.min(1, dt/1600);
+  var ease=1-Math.pow(1-land, 3);
+  g.beginPath(); g.moveTo(CX, CY-R*1.15); g.lineTo(CX, CY+R*1.15);
+  g.strokeStyle='rgba('+HUE.gold+','+(0.12+0.28*ease)+')'; g.lineWidth=1.2*DPR; g.stroke();
+  var x=CX + (1-ease)*R*0.85;
+  var y=CY + Math.sin((1-ease)*6)*R*0.12*(1-ease);
+  var pulse=0.5+0.5*Math.sin(dt*0.006);
+  dot(x, y, (2.4+land*5+pulse*1.6)*DPR, HUE.gold, 0.3+land*0.6);
+  if(land>0.55){
+    g.beginPath(); g.arc(CX,CY, (6+ (land-0.55)*40)*DPR, 0, 6.29);
+    g.strokeStyle='rgba('+HUE.gold+','+(0.28*(1-land))+')'; g.lineWidth=1.1*DPR; g.stroke();
+  }
+  if(land>0.85) label('a zero', CX, belowY(1.25), 13, HUE.gold, 0.45);
+  requestAnimationFrame(loop);
+}
+function drawPoint(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1100);
+  var pulse=0.5+0.5*Math.sin(dt*0.0028);
+  dot(CX, CY, (2.2+p*6+pulse*2.2)*DPR, HUE.gold, 0.25+p*0.55);
+  requestAnimationFrame(loop);
+}
+function drawObserver(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1400);
+  var gap=R*0.42*p;
+  seg(CX, CY-R*0.72, CX, CY+R*0.72, HUE.gold, 0.12*p, 1);
+  dot(CX-gap, CY, 7*DPR, HUE.gold, 0.55*p);
+  dot(CX+gap, CY, 7*DPR, HUE.c, 0.22*p);
+  if(p>0.7) label('the look', CX, belowY(0.95), 12, HUE.ink, 0.35);
+  requestAnimationFrame(loop);
+}
+function drawOneLine(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1200);
+  var x1=CX-R*0.62, x2=CX+R*0.62;
+  dot(x1, CY, 5.5*DPR, HUE.gold, 0.55);
+  dot(x2, CY, 5.5*DPR, HUE.c, 0.55*p);
+  segP(x1, CY, x2, CY, HUE.ink, 0.35*p, 1.4, p);
+  requestAnimationFrame(loop);
+}
+function drawTriangle(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1500);
+  var pts=[[CX, CY-R*0.62],[CX-R*0.62, CY+R*0.48],[CX+R*0.62, CY+R*0.48]];
+  for(var i=0;i<3;i++){
+    var a=pts[i], b=pts[(i+1)%3];
+    var pr=Math.min(1, Math.max(0, p*3.1-i));
+    segP(a[0],a[1], b[0],b[1], HUE.gold, 0.4*pr, 1.3, pr);
+    dot(a[0],a[1], 5*DPR, HUE.ink, 0.25+0.45*Math.min(1,p*3-i*0.2));
+  }
+  if(p>0.75){
+    dot(CX, CY+R*0.08, 3.2*DPR, HUE.gold, 0.45);
+    label('the middle', CX, CY+R*0.08+22*DPR, 12, HUE.gold, 0.4);
+  }
+  requestAnimationFrame(loop);
+}
+function drawTetra(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1800);
+  var lift=R*0.55*p;
+  var base=[[CX-R*0.58, CY+R*0.42, 0.2],[CX+R*0.58, CY+R*0.42, 0.2],[CX, CY+R*0.08, 0.85]];
+  var apex=[CX, CY-R*0.18-lift, 0.55];
+  var vs=base.concat([apex]);
+  var es=[[0,1],[1,2],[2,0],[0,3],[1,3],[2,3]];
+  for(var k=0;k<es.length;k++){
+    var a=vs[es[k][0]], b=vs[es[k][1]];
+    var pr=Math.min(1, Math.max(0, p*2.4-k*0.12));
+    var hue=k<3?HUE.ink:HUE.gold;
+    seg(a[0],a[1], b[0],b[1], hue, (0.18+a[2]*0.25)*pr, 0.8+a[2]);
+  }
+  vs.forEach(function(v,i){
+    dot(v[0],v[1], (2.2+v[2]*3.2)*DPR, i===3?HUE.gold:HUE.ink, 0.3+v[2]*0.4);
+  });
+  if(p>0.8) label('the first room', CX, belowY(1.05), 12, HUE.gold, 0.4);
   requestAnimationFrame(loop);
 }
 
-/* Scene 1: the crossing — a zero on the line. Visual is the live harp. */
-var zetaLanded=false;
+function cube3(tt){
+  var out=[], i, x,y,z,c,s,x2,z2,d;
+  c=Math.cos(tt); s=Math.sin(tt);
+  for(i=0;i<8;i++){
+    x=(i&1?1:-1); y=(i&2?1:-1); z=(i&4?1:-1);
+    x2=x*c-z*s; z2=x*s+z*c;
+    d=2.5/(2.5-z2*0.38);
+    out.push([x2*d, y*d, (z2+2)*0.5]);
+  }
+  return out;
+}
+var CUBE_E=[[0,1],[2,3],[4,5],[6,7],[0,2],[1,3],[4,6],[5,7],[0,4],[1,5],[2,6],[3,7]];
+var CUBE_F=[[0,1,3,2],[4,5,7,6],[0,1,5,4],[2,3,7,6],[0,2,6,4],[1,3,7,5]];
+
+function drawCube3(pts, faceA, edgeA){
+  var k,a,b,f,i,depth;
+  if(faceA){
+    for(f=0;f<6;f++){
+      var idx=CUBE_F[f], on=faceA[f]||0;
+      if(on<0.02) continue;
+      g.beginPath();
+      for(i=0;i<4;i++){
+        var v=pts[idx[i]];
+        var x=CX+v[0]*R*0.72, y=CY+v[1]*R*0.72;
+        if(i===0) g.moveTo(x,y); else g.lineTo(x,y);
+      }
+      g.closePath();
+      g.fillStyle='rgba('+HUE.gold+','+(0.06*on)+')'; g.fill();
+    }
+  }
+  for(k=0;k<CUBE_E.length;k++){
+    a=pts[CUBE_E[k][0]]; b=pts[CUBE_E[k][1]];
+    depth=(a[2]+b[2])*0.5;
+    seg(CX+a[0]*R*0.72,CY+a[1]*R*0.72, CX+b[0]*R*0.72,CY+b[1]*R*0.72, HUE.ink, (edgeA||0.22)+depth*0.2, 0.8+depth);
+  }
+}
+
+function drawSixWalls(dt){
+  g.clearRect(0,0,W,H);
+  var pts=cube3(dt*0.00028);
+  var lit=Math.min(6, Math.floor(dt/380)+1);
+  var fa=[];
+  for(var i=0;i<6;i++) fa[i]= i<lit ? Math.min(1,(dt-i*380)/320) : 0;
+  drawCube3(pts, fa, 0.18);
+  var n=Math.max(0, Math.min(6, lit));
+  label(String(n), CX, aboveY(1.18), 28, HUE.gold, 0.85);
+  if(n>=6) label('walls', CX, aboveY(1.18)+26*DPR, 13, HUE.ink, 0.4);
+  requestAnimationFrame(loop);
+}
+
+function drawPieces(dt){
+  g.clearRect(0,0,W,H);
+  var pts=cube3(dt*0.00022);
+  drawCube3(pts, [0.35,0.35,0.35,0.35,0.35,0.35], 0.16);
+  for(var i=0;i<8;i++){
+    var v=pts[i];
+    dot(CX+v[0]*R*0.72, CY+v[1]*R*0.72, (2.4+v[2]*2)*DPR, HUE.gold, 0.45+v[2]*0.3);
+  }
+  var t=dt/700;
+  var bits=[['8 corners',0],['12 edges',1],['6 walls',2],['1 room',3]];
+  var ty=belowY(1.12);
+  bits.forEach(function(b,i){
+    var on=Math.min(1, Math.max(0, t-i*0.55));
+    if(on>0) label(b[0], CX - R*0.72 + i*(R*0.48), ty, 12, HUE.gold, 0.25+on*0.5);
+  });
+  if(t>2.2) label('27 pieces — not 27 walls', CX, aboveY(1.15), 14, HUE.gold, 0.7);
+  requestAnimationFrame(loop);
+}
+
+function drawBook(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1400);
+  var w=R*0.55, h=R*0.72, x=CX-w/2, y=CY-h/2+R*0.08;
+  g.beginPath();
+  var r=10*DPR;
+  g.moveTo(x+r,y); g.lineTo(x+w-r,y); g.quadraticCurveTo(x+w,y,x+w,y+r);
+  g.lineTo(x+w,y+h-r); g.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  g.lineTo(x+r,y+h); g.quadraticCurveTo(x,y+h,x,y+h-r);
+  g.lineTo(x,y+r); g.quadraticCurveTo(x,y,x+r,y);
+  g.strokeStyle='rgba('+HUE.ink+','+(0.35*p)+')'; g.lineWidth=1.4*DPR; g.stroke();
+  for(var i=0;i<5;i++){
+    var ly=y+h*0.22+i*h*0.12;
+    seg(x+w*0.18, ly, x+w*0.82, ly, HUE.ink, 0.12*p, 1);
+  }
+  var lift=Math.min(1, Math.max(0,(dt-700)/900));
+  var sx=CX, sy=y+h*0.18 - lift*R*0.55;
+  dot(sx, sy, (4+lift*3)*DPR, HUE.gold, 0.35+lift*0.5);
+  if(lift>0.7) label('the fingerprint', sx, sy-22*DPR, 12, HUE.gold, 0.45);
+  requestAnimationFrame(loop);
+}
+
+function drawTwoJobs(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1200);
+  var L=CX-R*0.55, Rgt=CX+R*0.55;
+  dot(L, CY, 8*DPR, HUE.c, 0.45*p);
+  dot(Rgt, CY, 8*DPR, HUE.gold, 0.45*p);
+  var go=Math.min(1, Math.max(0,(dt-500)/800));
+  segP(L+14*DPR, CY, Rgt-14*DPR, CY, HUE.ink, 0.25*go, 1.2, go);
+  if(go>0.6){
+    label('suggests', L, CY+32*DPR, 13, HUE.c, 0.5);
+    label('allows', Rgt, CY+32*DPR, 13, HUE.gold, 0.55);
+  }
+  requestAnimationFrame(loop);
+}
+
+function drawFriend(dt){
+  g.clearRect(0,0,W,H);
+  var p=Math.min(1, dt/1300);
+  var L=CX-R*0.6, Rgt=CX+R*0.6;
+  dot(L, CY, 8*DPR, HUE.ink, 0.4*p);
+  dot(Rgt, CY, 8*DPR, HUE.ink, 0.4*p);
+  var copy=Math.min(1, Math.max(0,(dt-400)/900));
+  var x=L + (Rgt-L)*copy;
+  dot(x, CY-R*0.22, 4.5*DPR, HUE.gold, 0.35+copy*0.45);
+  if(copy>0.95){
+    dot(Rgt, CY-R*0.22, 4.5*DPR, HUE.gold, 0.7);
+    label('they keep it', Rgt, CY+34*DPR, 13, HUE.gold, 0.45);
+  }
+  requestAnimationFrame(loop);
+}
 
 /* =====================================================================
-   ACT II — THE BOUNDARY (tesseract / 27 / meeting / price)
+   ACT II — THE BOUNDARY
    ===================================================================== */
-function drawForm(dt){
-  g.clearRect(0,0,W,H);
-  var p=Math.min(1, dt/2600), tt=dt*0.00035;
-  var pts=tess(tt,1);
-  for(var k=0;k<E.length;k++){
-    var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
-    var reveal = Math.min(1, Math.max(0, p*E.length*1.15 - k)/1);
-    if(reveal<=0) continue;
-    g.beginPath(); g.moveTo(CX+a[0]*R, CY+a[1]*R);
-    g.lineTo(CX + (a[0]+(b[0]-a[0])*reveal)*R, CY + (a[1]+(b[1]-a[1])*reveal)*R);
-    g.strokeStyle='rgba('+HUE.c+','+(0.12+depth*0.34)+')'; g.lineWidth=(0.6+depth*1.6)*DPR; g.stroke();
-  }
-  for(k=0;k<pts.length;k++){
-    if(p*17 < k) continue;
-    var v=pts[k];
-    dot(CX+v[0]*R, CY+v[1]*R, (1.1+v[2]*2.6)*DPR, HUE.ink, 0.30+v[2]*0.5);
-  }
-  requestAnimationFrame(loop);
-}
-
-var faceCounter=0, faceTarget=27;
 function drawFaces(dt){
   g.clearRect(0,0,W,H);
   var pts=tess(dt*0.00028,0);
@@ -513,78 +611,65 @@ function drawFaces(dt){
     var v=pts[facetIdx[k]];
     dot(CX+v[0]*R, CY+v[1]*R, (1.6+v[2]*3)*DPR, HUE.gold, 0.4+v[2]*0.5);
   }
-  faceCounter = Math.max(0, Math.min(faceTarget, Math.floor((dt-300)/70)));
-  var ty = Math.max(24*DPR, CY - R*1.28);
-  label(String(faceCounter), CX, ty, 28, HUE.gold, 0.85);
-  label('8 · 12 · 6 · 1', CX, ty+22*DPR, 11, HUE.ink, 0.4);
+  var faceCounter = Math.max(0, Math.min(27, Math.floor((dt-300)/70)));
+  var ty = aboveY(1.28);
+  label(String(faceCounter), CX, ty, 30, HUE.gold, 0.85);
+  label('8 · 12 · 6 · 1', CX, ty+24*DPR, 12, HUE.ink, 0.4);
   requestAnimationFrame(loop);
 }
 
 function drawMeeting(dt){
   g.clearRect(0,0,W,H);
-  var tt=dt*0.0003, approach=Math.min(1, dt/2600), offset=(1-approach)*R*1.2;
-  function build(sign){
-    return V.map(function(v0){
-      var q=rot(v0.slice(),0,1,tt); q=rot(q,2,3,tt*0.7); q=rot(q,1,2,tt*0.25);
-      var pr=project(q, 0.85); pr[0]+= sign*offset/R * 0.55; return pr;
-    });
-  }
-  var left=build(-1), right=build(1);
-  function drawSide(pts, hue, mirror){
-    for(var k=0;k<E.length;k++){
-      var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
-      var onFacet = V[E[k][0]][3]===(mirror?1:-1) && V[E[k][1]][3]===(mirror?1:-1);
-      if(onFacet) seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.28+depth*0.4, 1+depth*1.8);
-      else seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, hue, 0.10+depth*0.24, 0.6+depth*1.2);
+  var approach=Math.min(1, dt/2000);
+  var gap=(1-approach)*R*0.95;
+  var pts=cube3(0.45);
+  function one(shift, hue, goldFace){
+    var k,a,b;
+    for(k=0;k<CUBE_E.length;k++){
+      a=pts[CUBE_E[k][0]]; b=pts[CUBE_E[k][1]];
+      var x1=CX+a[0]*R*0.42+shift, y1=CY+a[1]*R*0.42;
+      var x2=CX+b[0]*R*0.42+shift, y2=CY+b[1]*R*0.42;
+      seg(x1,y1,x2,y2, hue, 0.22+a[2]*0.15, 0.9);
     }
   }
-  drawSide(left, HUE.c, false); drawSide(right, HUE.r, true);
-  var pulse=0.5+0.5*Math.sin(dt*0.0022);
-  dot(CX,CY,(2+pulse*1.6)*DPR, HUE.gold, 0.5+pulse*0.3);
-  if(approach>0.94) label('−1 ↔ +1   ·   0 held fixed', CX, CY-R*1.15, 11, HUE.ink, 0.4);
-  requestAnimationFrame(loop);
-}
-
-function drawPrice(dt){
-  g.clearRect(0,0,W,H);
-  var grow=Math.min(1, dt/2200), rr=R*0.62*grow, sep=R*0.72*(1-grow*0.42);
-  var lx=CX-sep, rx=CX+sep;
-  [[lx,HUE.c],[rx,HUE.r]].forEach(function(o){
-    g.beginPath(); g.arc(o[0],CY,rr,0,6.29);
-    g.strokeStyle='rgba('+o[1]+',0.30)'; g.lineWidth=1.4*DPR; g.stroke();
-  });
-  g.save(); g.beginPath(); g.arc(lx,CY,rr,0,6.29); g.clip();
-  g.beginPath(); g.arc(rx,CY,rr,0,6.29);
-  g.fillStyle='rgba('+HUE.gold+','+(0.10+grow*0.14)+')'; g.fill(); g.restore();
-  if(grow>0.7) label('H(B) ≥ I(X;Y)', CX, CY-R*1.15, 20, HUE.gold, 0.82);
+  one(-R*0.55-gap*0.5, HUE.c);
+  one( R*0.55+gap*0.5, HUE.r);
+  if(approach>0.55){
+    g.beginPath();
+    g.moveTo(CX, CY-R*0.38); g.lineTo(CX, CY+R*0.38);
+    g.strokeStyle='rgba('+HUE.gold+','+(0.15+(approach-0.55)*0.7)+')';
+    g.lineWidth=3*DPR; g.stroke();
+  }
+  if(approach>0.9) label('neither owns the wall', CX, belowY(1.12), 13, HUE.gold, 0.5);
   requestAnimationFrame(loop);
 }
 
 /* =====================================================================
-   ACT III — THE ENGINEERING (Merkle consistency, receipts, witnesses…)
+   ACT III — THE ENGINEERING
    ===================================================================== */
 
-/* the diary: leaves converging into one root */
+/* the diary: a clean, legible 4→2→1 binary tree, not a scribble */
 function drawDiary(dt){
   g.clearRect(0,0,W,H);
-  var p=Math.min(1, dt/1800);
-  var leaves=8, y0=CY+R*0.7, y1=CY-R*0.75, spread=R*1.1;
-  var lx=[]; for(var k=0;k<leaves;k++) lx.push(CX-spread+ (2*spread)*(k/(leaves-1)));
-  var midY=(y0+y1)*0.55;
-  for(k=0;k<leaves;k++){
-    var pr=Math.min(1, Math.max(0, p*2.4 - k*0.06));
-    segP(lx[k],y0, (lx[k]+CX)/2, midY, HUE.c, 0.16*pr, 0.9, pr);
-    dot(lx[k],y0,(1.6)*DPR, HUE.c, 0.2+0.5*pr);
+  var p=Math.min(1, dt/2400);
+  var leafY=CY+R*0.62, midY=CY, rootY=CY-R*0.62;
+  var leafXs=[leftX(0.78), leftX(0.26), rightX(0.26), rightX(0.78)];
+  var midXs=[CX-R*0.5, CX+R*0.5];
+  for(var i=0;i<4;i++){
+    var target=i<2?0:1, pr=Math.min(1,Math.max(0,p*2.4-i*0.12));
+    segP(leafXs[i],leafY, midXs[target],midY, HUE.c, 0.24*pr, 1.1, pr);
+    dot(leafXs[i],leafY, 3*DPR, HUE.c, 0.25+0.5*pr);
   }
-  for(k=0;k<leaves;k+=2){
-    var pr2=Math.min(1, Math.max(0, p*2.4 - 1.4 - k*0.04));
-    segP((lx[k]+CX)/2,midY, CX,y1, HUE.gold, 0.22*pr2, 1.1, pr2);
+  for(i=0;i<2;i++){
+    var pr2=Math.min(1,Math.max(0,p*2.4-0.9-i*0.15));
+    if(pr2>0) dot(midXs[i],midY,3.6*DPR,HUE.gold,0.3+0.5*pr2);
+    segP(midXs[i],midY, CX,rootY, HUE.gold, 0.28*pr2, 1.3, pr2);
   }
-  var rootP=Math.min(1, Math.max(0, p*2.2-1.9));
-  if(rootP>0){
+  var rp=Math.min(1,Math.max(0,p*2.2-1.7));
+  if(rp>0){
     var pulse=0.5+0.5*Math.sin(dt*0.004);
-    dot(CX,y1,(2.4+rootP*2+pulse)*DPR, HUE.gold, 0.4+rootP*0.5);
-    if(rootP>0.8) label('one root', CX, y1-16*DPR, 11, HUE.gold, 0.5);
+    dot(CX,rootY,(3.4+rp*2.6+pulse)*DPR, HUE.gold, 0.45+rp*0.5);
+    if(rp>0.75) label('one root', CX, rootY-22*DPR, 12, HUE.gold, 0.55);
   }
   requestAnimationFrame(loop);
 }
@@ -593,7 +678,7 @@ function drawDiary(dt){
 function drawProve(dt){
   g.clearRect(0,0,W,H);
   var p=Math.min(1, dt/1400);
-  var cx1=CX-R*0.85, cx2=CX+R*0.85, y0=CY+R*0.65, y1=CY-R*0.7;
+  var cx1=leftX(0.85), cx2=rightX(0.85), y0=belowY(0.65), y1=aboveY(0.7);
   function mini(cx, conflictAt){
     var leaves=5;
     for(var k=0;k<leaves;k++){
@@ -613,58 +698,41 @@ function drawProve(dt){
   requestAnimationFrame(loop);
 }
 
-/* the invariant: two parties, a fixed shared record between them */
-function drawInvariant(dt){
+/* whose record: law/receipt flow, then a key with an honestly-unbound owner beneath it */
+function drawLawKey(dt){
   g.clearRect(0,0,W,H);
-  var tt=dt*0.0006, sep=R*0.9;
-  var ax=CX-sep+Math.sin(tt)*6*DPR, bx=CX+sep+Math.sin(tt+1.4)*6*DPR;
-  seg(ax,CY,bx,CY, HUE.ink, 0.10, 0.8);
-  dot(ax,CY,10*DPR, HUE.c, 0.16);
-  dot(bx,CY,10*DPR, HUE.r, 0.16);
-  var pulse=0.5+0.5*Math.sin(dt*0.0022);
-  dot(CX,CY,(2.4+pulse*1.4)*DPR, HUE.gold, 0.55+pulse*0.3);
-  if(dt>1400){ label('A', ax, CY+30*DPR, 12, HUE.c, 0.5); label('B', bx, CY+30*DPR, 12, HUE.r, 0.5); }
-  requestAnimationFrame(loop);
-}
-
-/* law & receipts: three nodes, sequential flow */
-function drawLaw(dt){
-  g.clearRect(0,0,W,H);
-  var y=CY, x1=CX-R*0.95, x2=CX, x3=CX+R*0.95;
-  var p1=Math.min(1,dt/900), p2=Math.min(1,Math.max(0,dt-500)/900), p3=Math.min(1,Math.max(0,dt-1000)/900);
-  dot(x1,y,7*DPR, HUE.c, 0.45);
-  segP(x1+10*DPR,y, x2-10*DPR,y, HUE.ink, 0.28*p1, 1, p1);
-  if(p1>0.9) dot(x2,y,7*DPR, HUE.gold, 0.5);
-  segP(x2+10*DPR,y, x3-10*DPR,y, HUE.ink, 0.28*p2, 1, p2);
-  if(p2>0.9) dot(x3,y,6*DPR, HUE.l, 0.5);
+  var flowY=aboveY(0.42);
+  var x1=leftX(0.85), x2=CX, x3=rightX(0.85);
+  var p1=Math.min(1,dt/800), p2=Math.min(1,Math.max(0,dt-450)/800), p3=Math.min(1,Math.max(0,dt-900)/800);
+  dot(x1,flowY,6.5*DPR,HUE.c,0.45);
+  segP(x1+11*DPR,flowY,x2-11*DPR,flowY,HUE.ink,0.26*p1,1,p1);
+  if(p1>0.9) dot(x2,flowY,6.5*DPR,HUE.gold,0.5);
+  segP(x2+11*DPR,flowY,x3-11*DPR,flowY,HUE.ink,0.26*p2,1,p2);
+  if(p2>0.9) dot(x3,flowY,6*DPR,HUE.l,0.5);
   if(p3>0.5){
-    label('proposes', x1, y+30*DPR, 11, HUE.c, 0.5);
-    label('law', x2, y-22*DPR, 11, HUE.gold, 0.5);
-    label('receipt', x3, y+28*DPR, 11, HUE.l, 0.5);
+    label('proposes', x1, flowY+28*DPR, 12, HUE.c, 0.5);
+    label('law', x2, flowY-20*DPR, 12, HUE.gold, 0.5);
+    label('receipt', x3, flowY+28*DPR, 12, HUE.l, 0.5);
   }
-  requestAnimationFrame(loop);
-}
-
-/* signatures & aumlok: a key bound to a record; an owner node drawn dashed — not yet bound */
-function drawKey(dt){
-  g.clearRect(0,0,W,H);
-  var p=Math.min(1,dt/1400);
-  dot(CX,CY,6*DPR, HUE.gold, 0.5*p);
-  // a small key glyph: a ring plus a shaft, drawn with strokes
-  g.save(); g.translate(CX,CY); g.rotate(-0.5);
-  g.beginPath(); g.arc(-14*DPR,0,6*DPR,0,6.29); g.strokeStyle='rgba('+HUE.gold+','+(0.6*p)+')'; g.lineWidth=1.6*DPR; g.stroke();
-  seg(-8*DPR,0, 16*DPR,0, HUE.gold, 0.6*p, 1.6);
-  seg(10*DPR,0, 10*DPR,6*DPR, HUE.gold, 0.6*p, 1.6);
-  seg(15*DPR,0, 15*DPR,5*DPR, HUE.gold, 0.6*p, 1.6);
-  g.restore();
-  // the owner node: dashed, unfilled — the binding is not yet complete, drawn honestly as absent
-  var ownerY=CY-R*0.9;
-  if(p>0.5){
-    g.save(); g.setLineDash([3*DPR,4*DPR]);
-    g.beginPath(); g.arc(CX,ownerY,8*DPR,0,6.29);
-    g.strokeStyle='rgba('+HUE.ink+',0.28)'; g.lineWidth=1.2*DPR; g.stroke(); g.restore();
-    seg(CX,CY-10*DPR, CX,ownerY+10*DPR, HUE.ink, 0.08, 0.8);
-    label('owner — not yet bound', CX, ownerY-16*DPR, 10.5, HUE.ink, 0.32);
+  var keyP=Math.min(1,Math.max(0,dt-1300)/1400);
+  if(keyP>0){
+    var ky=belowY(0.5), gs=Math.min(2.4, Math.max(1, R/(300*DPR)));
+    dot(CX,ky,8*DPR*gs,HUE.gold,0.55*keyP);
+    g.save(); g.translate(CX,ky); g.rotate(-0.5);
+    g.beginPath(); g.arc(-24*DPR*gs,0,11*DPR*gs,0,6.2832);
+    g.strokeStyle='rgba('+HUE.gold+','+(0.65*keyP)+')'; g.lineWidth=2.6*DPR*gs; g.stroke();
+    seg(-13*DPR*gs,0, 28*DPR*gs,0, HUE.gold, 0.65*keyP, 2.6*gs);
+    seg(18*DPR*gs,0, 18*DPR*gs,10*DPR*gs, HUE.gold, 0.65*keyP, 2.6*gs);
+    seg(26*DPR*gs,0, 26*DPR*gs,8*DPR*gs, HUE.gold, 0.65*keyP, 2.6*gs);
+    g.restore();
+    if(keyP>0.5){
+      var op=(keyP-0.5)*2, ownerY=ky-Math.min(R*0.5,(ky-flowY)*0.42);
+      g.save(); g.setLineDash([3*DPR,4*DPR]);
+      g.beginPath(); g.arc(CX,ownerY,12*DPR*gs,0,6.2832);
+      g.strokeStyle='rgba('+HUE.ink+','+(0.3*op)+')'; g.lineWidth=1.4*DPR; g.stroke(); g.restore();
+      seg(CX,ky-15*DPR*gs, CX,ownerY+14*DPR*gs, HUE.ink, 0.1*op, 1);
+      if(op>0.7) label('owner — not yet bound', CX, ownerY-22*DPR, 12, HUE.ink, 0.4);
+    }
   }
   requestAnimationFrame(loop);
 }
@@ -672,29 +740,29 @@ function drawKey(dt){
 /* forge: many dim proposals, one accepted at exact bytes */
 function drawForge(dt){
   g.clearRect(0,0,W,H);
-  var n=9, tt=dt*0.0006;
+  var n=9, tt=dt*0.0006, rrBase=fitR(0.7);
   for(var k=0;k<n;k++){
-    var ang=k/n*6.28+tt*0.3, rr=R*0.7;
+    var ang=k/n*6.28+tt*0.3, rr=rrBase;
     var x=CX+Math.cos(ang)*rr, y=CY+Math.sin(ang)*rr*0.6;
-    dot(x,y,2.4*DPR, HUE.c, 0.16+0.06*Math.sin(tt+k));
+    dot(x,y,2.6*DPR, HUE.c, 0.16+0.06*Math.sin(tt+k));
   }
   var accP=Math.min(1,Math.max(0,dt-900)/1000);
   if(accP>0){
-    var ang0=0.4, rr0=R*0.7, x0=CX+Math.cos(ang0)*rr0, y0=CY+Math.sin(ang0)*rr0*0.6;
+    var ang0=0.4, rr0=rrBase, x0=CX+Math.cos(ang0)*rr0, y0=CY+Math.sin(ang0)*rr0*0.6;
     segP(x0,y0, CX,CY, HUE.gold, 0.5*accP, 1.4, accP);
     dot(CX,CY,(3+accP*3)*DPR, HUE.gold, 0.5+accP*0.4);
   }
-  if(accP>0.8){ label('proposed', CX, CY+R*0.85, 11, HUE.c, 0.4); label('accepted — exact bytes', CX, CY-R*0.5, 11, HUE.gold, 0.6); }
+  if(accP>0.8){ label('proposed', CX, belowY(0.85), 12, HUE.c, 0.4); label('accepted — exact bytes', CX, aboveY(0.5), 12, HUE.gold, 0.6); }
   requestAnimationFrame(loop);
 }
 
 /* peer witnesses: a sparse constellation, each node holding a small kept commitment */
 function drawWitnesses(dt){
   g.clearRect(0,0,W,H);
-  var n=9, tt=dt*0.00022, pts=[];
+  var n=9, tt=dt*0.00022, pts=[], rrBase=fitR(0.83);
   for(var k=0;k<n;k++){
     var a=k/n*6.28 + Math.sin(tt+k)*0.15;
-    var rr=R*(0.55+0.28*Math.sin(k*2.1+tt*0.6));
+    var rr=rrBase*(0.66+0.34*Math.sin(k*2.1+tt*0.6));
     pts.push([CX+Math.cos(a)*rr, CY+Math.sin(a)*rr*0.62]);
   }
   var links=[[0,2],[1,4],[2,5],[3,6],[4,7],[5,8],[6,1],[7,3],[8,0]];
@@ -702,42 +770,28 @@ function drawWitnesses(dt){
     seg(pts[l[0]][0],pts[l[0]][1], pts[l[1]][0],pts[l[1]][1], HUE.l, 0.08, 0.7);
   });
   pts.forEach(function(pt,k){
-    dot(pt[0],pt[1], 6*DPR, HUE.l, 0.14);
-    dot(pt[0],pt[1], 2*DPR, HUE.gold, 0.45+0.15*Math.sin(tt*2+k));
+    dot(pt[0],pt[1], 6.5*DPR, HUE.l, 0.14);
+    dot(pt[0],pt[1], 2.2*DPR, HUE.gold, 0.45+0.15*Math.sin(tt*2+k));
   });
   requestAnimationFrame(loop);
 }
 
-/* the tesseract's job: return to the full form, warm and slow (reused for Aura + the finale) */
+/* the tesseract's job — reused for the instrument-panel and finale beats */
 function drawClose(dt){
   g.clearRect(0,0,W,H);
   var pts=tess(dt*0.00016,2);
   for(var k=0;k<E.length;k++){
     var a=pts[E[k][0]], b=pts[E[k][1]]; var depth=(a[2]+b[2])*0.5;
-    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.08+depth*0.26, 0.6+depth*1.4);
+    seg(CX+a[0]*R,CY+a[1]*R, CX+b[0]*R,CY+b[1]*R, HUE.gold, 0.09+depth*0.28, 0.7+depth*1.6);
   }
   for(k=0;k<pts.length;k++){
     var v=pts[k];
-    dot(CX+v[0]*R, CY+v[1]*R, (1+v[2]*2.4)*DPR, HUE.ink, 0.20+v[2]*0.4);
+    dot(CX+v[0]*R, CY+v[1]*R, (1.2+v[2]*2.8)*DPR, HUE.ink, 0.22+v[2]*0.44);
   }
   requestAnimationFrame(loop);
 }
 
-/* kira: a query resolving from a dashed halo into a solid ring */
-function drawKira(dt){
-  g.clearRect(0,0,W,H);
-  var p=Math.min(1,dt/1800);
-  dot(CX,CY,4*DPR, HUE.gold, 0.4+0.3*p);
-  g.save();
-  if(p<1) g.setLineDash([3*DPR,5*DPR]);
-  g.beginPath(); g.arc(CX,CY,(14+p*4)*DPR,0,6.29);
-  g.strokeStyle='rgba('+HUE.gold+','+(0.15+p*0.35)+')'; g.lineWidth=1.2*DPR; g.stroke();
-  g.restore();
-  if(p>0.85) label('checked, not simply believed', CX, CY+R*0.55, 11, HUE.ink, 0.4);
-  requestAnimationFrame(loop);
-}
-
-/* the whole machine: the tesseract with ten small orbiting jobs, ticking through in sequence */
+/* the pattern: the tesseract with ten small orbiting jobs, ticking through in sequence */
 function drawWhole(dt){
   g.clearRect(0,0,W,H);
   var pts=tess(dt*0.00012,2);
@@ -751,8 +805,23 @@ function drawWhole(dt){
     var x=CX+Math.cos(a2+tt*0.15)*rr, y=CY+Math.sin(a2+tt*0.15)*rr*0.6;
     var tick=((dt*0.00028 - k/jobs) % 1 + 1) % 1;
     var hot = tick<0.12 ? 1-(tick/0.12) : 0;
-    dot(x,y, (2+hot*3)*DPR, HUE.gold, 0.18+hot*0.6);
+    dot(x,y, (2.2+hot*3.2)*DPR, HUE.gold, 0.18+hot*0.6);
   }
+  requestAnimationFrame(loop);
+}
+
+function drawPrice(dt){
+  g.clearRect(0,0,W,H);
+  var grow=Math.min(1, dt/2200), base=fitR(1), rr=base*0.5*grow, sep=base*0.55*(1-grow*0.42);
+  var lx=CX-sep, rx=CX+sep;
+  [[lx,HUE.c],[rx,HUE.r]].forEach(function(o){
+    g.beginPath(); g.arc(o[0],CY,rr,0,6.29);
+    g.strokeStyle='rgba('+o[1]+',0.30)'; g.lineWidth=1.5*DPR; g.stroke();
+  });
+  g.save(); g.beginPath(); g.arc(lx,CY,rr,0,6.29); g.clip();
+  g.beginPath(); g.arc(rx,CY,rr,0,6.29);
+  g.fillStyle='rgba('+HUE.gold+','+(0.10+grow*0.14)+')'; g.fill(); g.restore();
+  if(grow>0.7) label('what they share', CX, aboveY(1.15), 16, HUE.gold, 0.75);
   requestAnimationFrame(loop);
 }
 
@@ -762,45 +831,51 @@ var GH_GB='https://github.com/aumara-xyz/golden-horizon-principle/blob/main/rese
 var GH_ZH='https://github.com/aumara-xyz/zeta-harp';
 
 SCENES=[
-  { render:drawZetaA, enter:function(){ showBox('The critical line',
-      'A hundred and sixty‑five years ago, a mathematician drew one line.',
-      'Bernhard Riemann’s zeta function organizes itself around a single boundary — the line where the real part of s equals one half. Every nontrivial zero ever computed sits exactly on it, into the trillions. Whether every zero must is the single most famous unsolved problem in mathematics.'); } },
-  { render:drawZetaB, enter:function(){ showBox('The crossing',
-      'A zero is a point where something becomes distinguishable, right on the boundary.',
-      'This page borrows only that image — a line, and a point landing on it — not the mathematics of zeta itself. What follows is not a claim about the Riemann Hypothesis and proves nothing about it either way. It is a doorway, not evidence, and the rest of this page will hold that same discipline about itself.'); } },
-  { render:drawForm, enter:function(){ showBox('The boundary','The surface has a shape — and it is exact.',
-      'This is a tesseract: a four‑dimensional cube, shown as the shadow it casts into three. It is a viewing frame, not a claim about the world. Sixteen vertices. Thirty‑two edges. What matters is not its beauty — it is what happens where two of these meet.'); } },
-  { render:drawFaces, enter:function(){ formT=performance.now(); showBox('The twenty‑seven','A cube has exactly twenty‑seven faces.',
-      'Eight corners, twelve edges, six sides, and the cube itself. Three choices in three directions — 3³ = 27. Counted, not chosen. The Moon returns to the same place among the stars every 27.32 days, which is why the sky was divided into twenty‑seven long before anyone drew a cube. Different causes. The same shape of question: how many positions can something occupy, relative to a boundary?'); } },
-  { render:drawMeeting, enter:function(){ showBox('The meeting','When two worlds meet, they meet along a shared face — and that face is the twenty‑seven.',
-      'It belongs to neither side and to both. What is a push from one side is a pull from the other — forced, not chosen, the same fact that makes a soap film curve toward the larger of two bubbles. The centre, the zero, does not move when the sides reverse. It is the one thing both observers agree on precisely because neither pinned it down.'); } },
-
-  { render:drawDiary, enter:function(){ showBox('The diary','Imagine someone hands you a hundred‑page diary.',
-      'Instead of a copy, you take a tiny mathematical fingerprint and put it in your pocket. Tomorrow they return with a hundred and fifty pages: same diary, I only added fifty. Now you can say: prove it.'); } },
-  { render:drawProve, enter:function(){ showBox('Prove it','Three answers are allowed. Only three.',
-      'Append‑only — the new pages provably extend what you kept. Observation‑conflict — they don’t, and the mismatch is exact, not a suspicion. Undetermined — there isn’t enough to decide, and the system says so instead of guessing. None of this claims the pages are true. Only that they are, or are not, the same history you were shown before.'); } },
-  { render:drawInvariant, enter:function(){ showBox('The invariant','The actor does not get to hold the only copy of what it did.',
-      'Once an independent observer has kept something, the machine that acted should not retain unilateral power to rewrite it. Most computing is one party acting, storing, and narrating. This is the same three jobs, deliberately no longer done by the same hands.'); } },
-  { render:drawLaw, enter:function(){ showBox('What did it claim','Every action a model proposes can leave a receipt.',
-      'The receipt is not the model’s word for it — it is a record a separate layer produced while the action happened, not a summary written afterward. History exists to hold the machine to, not history the machine writes about itself.'); } },
-  { render:drawKey, enter:function(){ showBox('Whose authority','A key signs the history. A key still is not a person.',
-      'A signature says which cryptographic authority attested to a record. Binding that key to an actual human owner, unforgeably, is a separate and harder problem — and this system says plainly where that binding is not yet complete, rather than pretending it is.'); } },
-  { render:drawForge, enter:function(){ showBox('Propose, not accept','Intelligence proposes. It does not also get to authorize.',
-      'A model can be extraordinarily capable and still hold zero authority to make anything real. Acceptance binds to the exact bytes reviewed — not the intent, not a summary, the bytes — so what was approved and what was proposed can never quietly drift apart.'); } },
-  { render:drawWitnesses, enter:function(){ showBox('Independent memory','One machine can rewrite its own disk. It cannot rewrite what someone else remembers.',
-      'A second machine that once received a small commitment keeps it, outside the first machine’s control. Multiply that across independent observers and rewriting a history silently stops being a local problem, because pieces of it already left the building.'); } },
-  { render:drawClose, enter:function(){ showBox('The instrument panel','The tesseract is not the truth. It is where the evidence becomes perceptible.',
-      'Underneath, the evidence is cryptographic and largely unreadable at a glance — roots, proofs, receipts, open questions. This shape’s job is to make that legible, never to grant authority by looking a certain way. A beautiful shape that lied would be worse than no shape at all.'); } },
-  { render:drawKira, enter:function(){ showBox('Memory','Recall is not the same claim as verified memory.',
-      'An assistant that says you told me this once is making a claim about the past. Anchoring that claim to what was actually, verifiably retained turns recollection into something that can be checked, instead of simply believed.'); } },
-  { render:drawWhole, enter:function(){ showBox('The pattern','One sentence underneath all of it.',
-      'The thing being observed does not get to control the observer’s memory. Acts, receipts, commitments, an observer who keeps something outside the actor’s reach, independent witnesses, a signature, an owner, a memory that can be checked, and a shape a human can actually look at — separate jobs, never collapsed into one.',
-      'Further reading, cited and not embedded — this page borrows no claims from it, only the direction to look: github.com/aumara-xyz/zeta-harp'); } },
-
-  { render:drawPrice, enter:function(){ showBox('The price','A boundary costs at least as much as the two sides share.',
-      'H(B) ≥ I(X;Y) — a theorem, not a metaphor. The more deeply two things are joined, the more the surface between them must carry. There is no cheap membrane between things that truly belong to each other. The price of remaining two, rather than collapsing into one, is exactly everything you have in common.'); } },
-  { render:drawClose, enter:function(){ showBox('The invitation','A boundary needs two sides. We cannot be both.',
-      'This work reached this far by being carried, unproven, from one observer to the next — each able to say no. It can only go further the same way: through a second witness, in a place that decided long ago to measure what actually matters. You are not the audience for this. You are the next observer.',
+  { render:drawZetaA, enter:function(){ showBox('The line',
+      'A long time ago, someone painted one line.',
+      'Every special dot we have ever found sits on it. Nobody knows if they all must. The line is the first fence.'); } },
+  { render:drawZetaB, enter:function(){ showBox('A zero',
+      'Watch. One note becomes a thing you can hear.',
+      'A point lands on the line. Now you can tell it from everything else. That is a zero — not nothing. The first time something is distinct.'); } },
+  { render:drawPoint, enter:function(){ showBox('A point',
+      'Start smaller. One point. That is all.',
+      'No line yet. No room. Just a place. Everything else grows from here.'); } },
+  { render:drawObserver, enter:function(){ showBox('Someone looking',
+      'The moment you look, there are two.',
+      'You, and what you see. The gap between them is the first wall. Neither of you is the wall.'); } },
+  { render:drawOneLine, enter:function(){ showBox('A line',
+      'Two points make a line.',
+      'That is the first “and.” One thing, another thing, and the stretch between them.'); } },
+  { render:drawTriangle, enter:function(){ showBox('A triangle',
+      'Three points make a triangle.',
+      'Now there is a middle. None of the three corners owns it. That middle is the first thing that is not yours.'); } },
+  { render:drawTetra, enter:function(){ showBox('A little pyramid',
+      'Four points stand up. A tetrahedron.',
+      'The first room. You can be inside or outside. The walls are what you share with the world.'); } },
+  { render:drawSixWalls, enter:function(){ showBox('Six walls',
+      'A room has six walls. Not twenty‑seven.',
+      'You can touch them. Front, back, left, right, floor, ceiling. That is a cube.'); } },
+  { render:drawPieces, enter:function(){ showBox('Every piece',
+      'Now count every piece of the room.',
+      'Eight corners. Twelve edges. Six walls. The room itself. That is 27 — every place a thing can sit, relative to the walls. Not 27 walls.'); } },
+  { render:drawMeeting, enter:function(){ showBox('The shared wall',
+      'When two rooms meet, they meet on a wall neither owns.',
+      'A push from this side is a pull from that side. The wall does not move when you swap places. That is the part a third person can still hold you both to.'); } },
+  { render:drawBook, enter:function(){ showBox('The diary',
+      'Someone hands you a book of what they did.',
+      'You do not keep the book. You keep a tiny fingerprint. Tomorrow they say they only added pages. Now you can say: prove it.'); } },
+  { render:drawTwoJobs, enter:function(){ showBox('Two jobs',
+      'A smart friend can suggest. They do not get to say yes.',
+      'Seeing is not allowing. Those are two jobs. One pair of hands never gets both.'); } },
+  { render:drawFriend, enter:function(){ showBox('A friend remembers',
+      'If only you remember, you can change the story.',
+      'A friend keeps the fingerprint. You cannot quietly rewrite what they already hold.'); } },
+  { render:drawPrice, enter:function(){ showBox('The price',
+      'A wall has to be as strong as what the two sides share.',
+      'There is no cheap fence between things that really belong to each other.'); } },
+  { render:drawClose, enter:function(){ showBox('The mirror',
+      'A boundary needs two sides. We cannot be both.',
+      'This work got here because someone else could say no. You are not the audience. You are the other side of the mirror.',
       null,
       function(){
         blinks.innerHTML =
